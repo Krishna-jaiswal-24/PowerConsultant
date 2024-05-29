@@ -30,7 +30,8 @@ const AdminDashboard = () => {
   const customStyles = {
 	content: {
 		borderRadius: '25px',
-		height: '90%'
+		height: '90%',
+		padding: '2rem'
 	},
   };
 
@@ -50,6 +51,27 @@ const AdminDashboard = () => {
     fetchUsers();
   }, []);
 
+  useEffect(() => {
+    if (formData.dob) {
+      const calculateAge = (dob) => {
+        const today = new Date();
+        const birthDate = new Date(dob);
+        let age = today.getFullYear() - birthDate.getFullYear();
+        const monthDifference = today.getMonth() - birthDate.getMonth();
+        if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+          age--;
+        }
+        return age;
+      };
+
+      const age = calculateAge(formData.dob);
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        age: age,
+      }));
+    }
+  }, [formData.dob]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({
@@ -62,6 +84,7 @@ const AdminDashboard = () => {
     e.preventDefault();
     // API Call to submit the data
 	setModalIsOpen(false);
+	console.log('modal closed')
     console.log(formData);
   };
 
@@ -87,6 +110,10 @@ const AdminDashboard = () => {
               <h2>Add User</h2>
             </div>
           </div>
+		  
+		  <div className="flex justify-center items-center">
+
+		  
           <Modal isOpen={modalIsOpen} contentLabel="Example Modal" style={customStyles}>
             <div
               className="flex justify-end"
@@ -255,6 +282,7 @@ const AdminDashboard = () => {
             </form>
 
           </Modal>
+		  </div>
           <table className="min-w-full bg-white ">
             <thead>
               <tr>
