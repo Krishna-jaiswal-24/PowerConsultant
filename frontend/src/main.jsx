@@ -10,6 +10,7 @@ import UserDashboard from "./pages/user/UserDashboard.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import UserAddAttendance from "./pages/user/UserAddAttendance.jsx";
 
+
 const router = createBrowserRouter([
 	{
 		path: "/",
@@ -31,7 +32,7 @@ const router = createBrowserRouter([
 		element: <UserDashboard/>,
 	},{
 	path: "/admin/dashboard",
-		element: <AdminDashboard/>,
+		element: <AdminDashboard/>, 
 	},
 	{
 		path: '/user/add-details',
