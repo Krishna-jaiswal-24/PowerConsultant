@@ -65,5 +65,4 @@ const loginAdmin = async (req, res) => {
 }
 
 
-
 export {createAdmin, loginAdmin};

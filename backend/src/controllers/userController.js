@@ -3,7 +3,7 @@ import AttendanceDetails from "../models/attendance.js";
 import bcrypt from "bcrypt";
 
 const createUser = async (req, res) => {
-	const {username, password, name, phone, email,guardianName,address,actualGrossSalary,dob,joiningDate,sex,workCategory,designation} = req.body;
+	const {username, password, name, phone, email, guardianName , address , actualGrossSalary ,dob, joiningDate,sex,workCategory,designation} = req.body;
 	if (!username || !password || !name || !phone || !email) {
 		return res.status(400).json({
 			success: false,
