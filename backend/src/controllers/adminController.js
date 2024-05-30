@@ -1,5 +1,10 @@
 import Admin from "../models/admin.js";
 import bcrypt from "bcrypt";
+import busboy from 'busboy';
+import csvParser from 'csv-parser';
+import xlsx from 'xlsx';
+import MinWage from '../models/minWages.js';
+
 
 //Added the creation of admin and also checking for if admin already exists and hashing the password
 const createAdmin = async (req, res) => {
@@ -64,5 +69,51 @@ const loginAdmin = async (req, res) => {
 	});
 }
 
+const uploadWages=async(req,res)=>{
+    const bb = busboy({ headers: req.headers });
+    let fileBuffer = Buffer.from('');
 
-export {createAdmin, loginAdmin};
+    bb.on('file', (_, file) => {
+        file.on('data', (data) => {
+            fileBuffer = Buffer.concat([fileBuffer, data]);
+        });
+
+        file.on('end', async () => {
+				try {
+					const workbook = xlsx.read(fileBuffer, { type: 'buffer' });
+					const sheetName = workbook.SheetNames[0];
+					const worksheet = workbook.Sheets[sheetName];
+					const results = xlsx.utils.sheet_to_json(worksheet, { header: 1 });
+
+				
+					const formattedResults = results.slice(3).map(row => ({
+						industry: row[0],
+						category: row[1],
+						zone: row[2],
+						perDay: parseFloat(row[8]), 
+					}));
+
+					
+					const validData = formattedResults.filter(row => 
+						row.industry && row.category && row.zone && !isNaN(row.perDay)
+					);
+
+					await MinWage.insertMany(validData);
+
+					res.status(200).send('Excel file processed and data stored in MongoDB');
+				} catch (error) {
+					console.error('Error storing data:', error);
+					res.status(500).send('Error storing data: ' + error.message);
+				}
+			});
+    });
+
+    bb.on('error', (error) => {
+        console.error('Error processing file:', error);
+        res.status(500).send('Error processing file: ' + error.message);
+    });
+
+    req.pipe(bb);
+}
+
+export {createAdmin, loginAdmin,uploadWages};
