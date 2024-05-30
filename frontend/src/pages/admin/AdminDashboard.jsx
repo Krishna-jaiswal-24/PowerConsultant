@@ -88,12 +88,42 @@ const AdminDashboard = () => {
     console.log(formData);
   };
 
+  const handleEdit = (user) => {
+    
+    setFormData({
+      fullName: user.name,
+      fatherOrHusbandName: user.fatherOrHusbandName,
+      dob: user.dob,
+      age: user.age,
+      sex: user.sex,
+      doj: user.doj,
+      natureOfWork: user.natureOfWork,
+      category: user.category,
+      perDay: user.perDay,
+      address: user.address,
+      phone: user.phone,
+      grossSalary: user.grossSalary,
+      email: user.email,
+    });
+    setModalIsOpen(true);
+  };
+
+  const handleDelete = async (userId) => {
+    
+    try {
+      await axios.delete(`http://localhost:8000/api/admin/deleteUser/${userId}`);
+      setUsers(users.filter((user) => user.id !== userId));
+    } catch (error) {
+      console.error("Error deleting user:", error);
+    }
+  };
+
 
   return (
     <div className="w-full">
       <AdminNavbar UserName={admin.name} />
       <div className="p-8">
-        <div className="ViewUser overflow-scroll">
+        <div className="ViewUser overflow-scroll md:overflow-hidden">
           <div
             className="tpHead flex justify-between mx-12 md:mx-32
 						"
@@ -290,6 +320,7 @@ const AdminDashboard = () => {
                 <th className="py-2">Username</th>
                 <th className="py-2">Email</th>
                 <th className="py-2">Phone</th>
+                <th className="py-2">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -299,6 +330,20 @@ const AdminDashboard = () => {
                   <td className="py-2 px-4">{user.username}</td>
                   <td className="py-2 px-4">{user.email}</td>
                   <td className="py-2 px-4">{user.phone}</td>
+                  <td className="py-2 px-4">
+                    <button
+                      onClick={() => handleEdit(user)}
+                      className="bg-yellow-500 text-white p-2 rounded mr-2"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(user.id)}
+                      className="bg-red-500 text-white p-2 rounded"
+                    >
+                      Delete
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
