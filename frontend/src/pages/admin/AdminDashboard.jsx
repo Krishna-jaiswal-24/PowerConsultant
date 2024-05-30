@@ -11,14 +11,18 @@ const AdminDashboard = () => {
   const admin = location.state.admin;
   const [users, setUsers] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+//username, password, name, phone, email, guardianName , address , actualGrossSalary ,dob, joiningDate,sex,workCategory,designation
   const [formData, setFormData] = useState({
     fullName: "",
+    userName: "",
+    password: "",
     fatherOrHusbandName: "",
     dob: "",
     age: "",
     sex: "",
     doj: "",
-    natureOfWork: "",
+    designation: "",
     category: "",
     perDay: "",
     address: "",
@@ -82,10 +86,22 @@ const AdminDashboard = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // API Call to submit the data
+    
 	setModalIsOpen(false);
 	console.log('modal closed')
     console.log(formData);
+
+    const submitFormData = async () => {
+      try {
+        const response = await axios.post('http://localhost:8000/api/user/create', formData);
+        console.log('Response:', response.data);
+      } catch (error) {
+        console.error('Error submitting form:', error);
+      }
+    };
+
+    submitFormData();
+
   };
 
   const handleEdit = (user) => {
@@ -97,7 +113,7 @@ const AdminDashboard = () => {
       age: user.age,
       sex: user.sex,
       doj: user.doj,
-      natureOfWork: user.natureOfWork,
+      designation: user.designation,
       category: user.category,
       perDay: user.perDay,
       address: user.address,
@@ -227,8 +243,8 @@ const AdminDashboard = () => {
               <div>
                 <label>Nature of Work / Designation</label>
                 <select
-                  name="natureOfWork"
-                  value={formData.natureOfWork}
+                  name="designation"
+                  value={formData.designation}
                   onChange={handleChange}
                   className="block w-full mt-1 p-2 border"
                   required
@@ -355,3 +371,5 @@ const AdminDashboard = () => {
 };
 
 export default AdminDashboard;
+
+
