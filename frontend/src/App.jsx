@@ -1,22 +1,19 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function App() {
 	return (
 		<>
-			<nav className="bg-blue-600 px-8 py-3">
-				<h1 className="text-white text-2xl">Power Consultant</h1>
+			<nav className="dark:bg-gray-900 px-8 py-3 shadow-md">
+				<h1 className="text-white text-3xl font-bold">Power Consultant</h1>
 			</nav>
-			<div
-				className="flex flex-col items-center justify-center border-2 w-1/2 mx-auto mt-10 p-5 rounded-lg shadow-lg">
-				<h1 className="text-3xl font-semibold mb-5">Welcome!</h1>
-				<div className="space-x-4">
-					<Link to='/admin/login'
-					      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+			<div className="flex flex-col items-center justify-center border-2 border-gray-300 bg-white w-3/4 md:w-1/3 mx-auto mt-16 p-8 rounded-lg shadow-2xl">
+				<h1 className="text-4xl font-semibold mb-6 text-gray-800">Welcome!</h1>
+				<div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
+					<Link to='/admin/login' className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded transition duration-300 ease-in-out transform hover:scale-105">
 						Login as Admin
 					</Link>
-					<Link to='/user/login'
-					      className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+					<Link to='/user/login' className="bg-green-600 hover:bg-green-800 text-white font-bold py-3 px-6 rounded transition duration-300 ease-in-out transform hover:scale-105">
 						Login as User
 					</Link>
 				</div>
