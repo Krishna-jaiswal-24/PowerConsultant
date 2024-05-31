@@ -19,7 +19,7 @@ const createUser = async (req, res) => {
 	}
 	const saltRounds = 10;
 	const hashedPassword = await bcrypt.hash(password, saltRounds);
-
+	console.log(req.body);
 	try {
 		const newUser = new User({username, password: hashedPassword, name, email, phone,guardianName,address,actualGrossSalary,dob,joiningDate,sex,workCategory,designation});
 		await newUser.save();
@@ -93,10 +93,15 @@ const getAllUsers = async (req, res) => {
 
 
 const addDetails = async (req, res) => {
-	const {userId, date, dutyHours, otHours, siteLocation, remark} = req.body;
+	const { userId, date, dutyType, dutyHours, otHours, siteLocation, remark } = req.body;
+
+	// Check if required fields are provided
+	if (!userId || !date || !dutyType) {
+		return res.status(400).json({ error: 'userId, date, and dutyType are required' });
+	}
 
 	try {
-		const newDetails = new AttendanceDetails({userId, date, dutyHours, otHours, siteLocation, remark});
+		const newDetails = new AttendanceDetails({ userId, date, dutyType, dutyHours, otHours, siteLocation, remark });
 		await newDetails.save();
 		res.status(201).json({
 			message: 'Details added successfully',
@@ -104,7 +109,8 @@ const addDetails = async (req, res) => {
 			data: newDetails
 		});
 	} catch (error) {
-		res.status(400).json({error: error.message});
+		res.status(400).json({ error: error.message });
 	}
 }
+
 export {createUser, loginUser, getAllUsers,addDetails};

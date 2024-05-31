@@ -10,21 +10,22 @@ const attendanceDetailsSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
-	dutyHours: {
+	dutyType: {
 		type: String,
 		required: true,
+		enum: ['Onsite', 'Leave', 'Travelling', 'Holiday'],
 	},
 	otHours: {
-		type: String,
-		required: true,
+		type: Number,
 	},
 	siteLocation: {
 		type: String,
-		required: true,
+	},
+	dutyHours: {
+		type: Number,
 	},
 	remark: {
 		type: String,
-		required: true,
 	},
 }, {
 	timestamps: true,
