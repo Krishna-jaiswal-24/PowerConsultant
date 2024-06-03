@@ -8,4 +8,5 @@ router.post('/create', createUser);
 router.post('/login', loginUser);
 router.post('/attendance', addDetails);
 router.get('/attendance/:userId', getAttendanceDetails);
+
 export default router;
