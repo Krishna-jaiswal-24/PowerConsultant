@@ -58,9 +58,24 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
     setDutyType(event.target.value);
   };
 
+  const isSmallScreen = window.innerWidth <= 768;
+
+  const customStyles = {
+    content: {
+      borderRadius: '20px',
+      width: isSmallScreen ? '80%' : '40%',
+     margin: 'auto'
+    },
+
+  };
+
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+      <Modal isOpen={isOpen} onRequestClose={onRequestClose}
+      style={customStyles}
+
+      > 
+      
         <div className="flex justify-end" onClick={onRequestClose}>
           <IoClose className="text-4xl cursor-pointer" />
         </div>

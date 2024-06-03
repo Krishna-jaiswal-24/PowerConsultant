@@ -23,8 +23,8 @@ const Login = () => {
 
 	return (
 		<>
-			<nav className="dark:bg-gray-900 px-8 py-3">
-				<h1 className="text-white text-2xl">Power Consultant</h1>
+			<nav className="dark:bg-gray-900 px-8 py-3 shadow-md">
+				<h1 className="text-white text-3xl font-bold">Power Consultant</h1>
 			</nav>
 			<div className="flex justify-center items-center h-screen bg-gray-100">
 				<div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">

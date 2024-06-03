@@ -155,10 +155,10 @@ const AdminDashboard = () => {
         <AdminNavbar UserName={admin.name} />
         <div className="p-8">
           <div className="ViewUser overflow-scroll md:overflow-hidden">
-            <div className="tpHead flex justify-between mx-12 md:mx-32">
+            <div className="tpHead flex justify-between mx-12 md:mx-32 md:my-4 mb-4">
               <h2 className="text-2xl">All Users</h2>
               <div
-                  className="flex border border-black p-2 rounded items-center "
+                  className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
                   onClick={() => {
                     setModalIsOpen(true);
                   }}
@@ -350,24 +350,24 @@ const AdminDashboard = () => {
               </Modal>
             </div>
 
-            <table className="min-w-full bg-white">
+            <table className="min-w-full bg-white border">
               <thead>
               <tr>
-                <th className="py-2">Name</th>
-                <th className="py-2">Username</th>
-                <th className="py-2">Email</th>
-                <th className="py-2">Phone</th>
-                <th className="py-2">Actions</th>
+                <th className="py-2 border">Name</th>
+                <th className="py-2 border">Username</th>
+                <th className="py-2 border">Email</th>
+                <th className="py-2 border">Phone</th>
+                <th className="py-2 border">Actions</th>
               </tr>
               </thead>
               <tbody>
               {users.map((user) => (
                   <tr key={user.id} className="border-t text-center">
-                    <td className="py-2 px-4">{user.name}</td>
-                    <td className="py-2 px-4">{user.username}</td>
-                    <td className="py-2 px-4">{user.email}</td>
-                    <td className="py-2 px-4">{user.phone}</td>
-                    <td className="py-2 px-4">
+                    <td className="py-2 px-4 border">{user.name}</td>
+                    <td className="py-2 px-4 border">{user.username}</td>
+                    <td className="py-2 px-4 border">{user.email}</td>
+                    <td className="py-2 px-4 border">{user.phone}</td>
+                    <td className="py-2 px-4 items-center justify-center flex">
                       <button
                           onClick={() => handleEdit(user)}
                           className="bg-yellow-500 text-white p-2 rounded mr-2"

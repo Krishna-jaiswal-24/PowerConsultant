@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
+import UserNavbar from '../../components/UserNavbar';
 
 const UserLogin = () => {
 	const [username, setUsername] = useState('');
@@ -25,9 +26,12 @@ const UserLogin = () => {
 
 	return (
 		<>
-			<nav className="bg-blue-600 px-8 py-3">
-				<h1 className="text-white text-2xl">Power Consultant</h1>
+			<nav className="dark:bg-gray-900 px-8 py-3 shadow-md">
+				<h1 className="text-white text-3xl font-bold">Power Consultant</h1>
 			</nav>
+			{/* <nav className="bg-blue-600 px-8 py-3">
+				<h1 className="text-white text-2xl">Power Consultant</h1>
+			</nav> */}
 			<div className="flex justify-center items-center h-screen bg-gray-100">
 				<div className="w-full max-w-sm p-6 bg-white rounded-lg shadow-md">
 					<form onSubmit={handleSubmit}>

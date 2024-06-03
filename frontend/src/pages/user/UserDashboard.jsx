@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserAttendanceModal from "../../components/UserAttendanceModal";
 import { useLocation } from "react-router-dom";
+import UserNavbar from "../../components/UserNavbar";
 
 const UserDashboard = () => {
   const location = useLocation();
@@ -39,10 +40,7 @@ const UserDashboard = () => {
 
   return (
     <div>
-      <nav className="bg-blue-600 px-8 py-3 flex justify-between">
-        <h1 className="text-white text-2xl">Power Consultant</h1>
-        <h2 className="text-white text-xl">Random user</h2>
-      </nav>
+      <UserNavbar/>
 
       <div className="p-8">
         <div className="flex justify-between items-center mb-4">
@@ -54,13 +52,18 @@ const UserDashboard = () => {
             Add Attendance Details
           </button>
         </div>
+        <div>
+
         <UserAttendanceModal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
           onSubmit={handleAddAttendanceDetails}
           userId={user._id}
         />
+        </div>
 
+        
+        <div className="overflow-scroll md:overflow-hidden">
         <table className="min-w-full bg-white border">
           <thead>
             <tr>
@@ -85,6 +88,7 @@ const UserDashboard = () => {
             ))}
           </tbody>
         </table>
+        </div>
       </div>
     </div>
   );
