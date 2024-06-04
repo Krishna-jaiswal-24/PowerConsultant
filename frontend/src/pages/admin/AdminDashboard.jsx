@@ -140,13 +140,8 @@ const AdminDashboard = () => {
         }
       }
       
-      // else {
-      //   // http://localhost:8000/api/admin/editUser/665d6afaa93e673a36b5d7d2
-
       
-
-      // }
-      
+            
     
       
     };
@@ -174,6 +169,14 @@ const AdminDashboard = () => {
     
   };
 
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const handleEdit = (user) => {
     console.log(user)
     setIsEdit(true);
@@ -183,10 +186,10 @@ const AdminDashboard = () => {
       userName: user.username,
       password: user.password, 
       fatherOrHusbandName: user.guardianName,
-      dob: user.dob,
+      dob:  formatDate(user.dob),
       age: user.age,
       sex: user.sex,
-      doj: user.joiningDate,
+      doj: formatDate(user.joiningDate),
       designation: user.designation,
       category: user.workCategory,
       perDay: "", 
