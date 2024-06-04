@@ -3,6 +3,9 @@ import axios from "axios";
 import UserAttendanceModal from "../../components/UserAttendanceModal";
 import { useLocation } from "react-router-dom";
 import UserNavbar from "../../components/UserNavbar";
+import AdminNavbar from "../../components/AdminNavbar";
+import { CgUserAdd } from "react-icons/cg";
+
 
 const UserDashboard = () => {
   const location = useLocation();
@@ -40,17 +43,20 @@ const UserDashboard = () => {
 
   return (
     <div>
-      <UserNavbar/>
+      <AdminNavbar/>
 
-      <div className="p-8">
+      
+
+      <div className="p-12">
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">ATTENDANCE DETAILS</h2>
-          <button
-            onClick={openModal}
-            className="bg-blue-600 hover:bg-blue-800 text-white font-bold py-3 px-6 rounded transition duration-300 ease-in-out transform hover:scale-105"
-          >
-            Add Attendance Details
-          </button>
+          <h2 className="text-2xl">Attendance Details</h2>  
+          <div
+                  className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
+                  onClick={openModal}
+              >
+                <CgUserAdd className="text-2xl mr-2" />
+                <h2>Add Attendance Details</h2>
+              </div>
         </div>
         <div>
 

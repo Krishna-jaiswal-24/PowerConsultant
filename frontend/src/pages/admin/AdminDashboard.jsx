@@ -11,8 +11,10 @@ const AdminDashboard = () => {
   const admin = location.state.admin;
   const [users, setUsers] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [isEdit, setIsEdit] = useState(false);
+  const [userSpecificId, setUserSpecificId] = useState(null);
 
-  // Form data state
+  
   const [formData, setFormData] = useState({
     fullName: "",
     userName: "",
@@ -39,19 +41,19 @@ const AdminDashboard = () => {
     },
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await axios.get(
-            "http://localhost:8000/api/admin/getAllUsers"
-        );
-        console.log(response.data.data);
-        setUsers(response.data.data);
-      } catch (error) {
-        console.error("Error fetching users:", error);
-      }
-    };
+  const fetchUsers = async () => {
+    try {
+      const response = await axios.get(
+          "http://localhost:8000/api/admin/getAllUsers"
+      );
+      console.log( response.data.data);
+      setUsers(response.data.data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchUsers();
   }, []);
 
@@ -86,7 +88,6 @@ const AdminDashboard = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     setModalIsOpen(false);
     console.log('modal closed');
     console.log(formData);
@@ -108,23 +109,68 @@ const AdminDashboard = () => {
         email: formData.email,
       };
 
-      try {
-        const response = await axios.post('http://localhost:8000/api/user/create', mappedData);
-        console.log('Response:', response.data);
-        setUsers([...users, response.data]); // Update users list with the new user
-      } catch (error) {
-        console.error('Error submitting form:', error);
+      if(!isEdit){
+        try {
+          const response = await axios.post('http://localhost:8000/api/user/create', mappedData);
+          console.log('post wala request')
+          // console.log('Response:', response.data);
+          setUsers([...users, response.data]); // 
+          fetchUsers();
+  
+        } catch (error) {
+          console.log('post wala error');
+          console.error('Error submitting form:', error);
+        }
+      } else {
+        // http://localhost:8000/api/admin/editUser/665d6afaa93e673a36b5d7d2
+
+        try {
+          const response = await axios.put(`http://localhost:8000/api/admin/editUser/${userSpecificId}`, formData);
+          console.log('Pul wala request');
+          fetchUsers();
+          setIsEdit(false);
+          setUserSpecificId(null);
+  
+        } catch (error) {
+          console.error('Error submitting form:', error);
+        }
+
       }
+      
+    
+      
     };
 
     submitFormData();
+    
+    setFormData({
+      fullName: "",
+      userName: "",
+      password: "",
+      fatherOrHusbandName: "",
+      dob: "",
+      age: "",
+      sex: "",
+      doj: "",
+      designation: "",
+      category: "",
+      perDay: "",
+      address: "",
+      phone: "",
+      grossSalary: "",
+      email: "",
+      
+    });
+    
   };
 
   const handleEdit = (user) => {
+    setIsEdit(true);
+    setUserSpecificId(user._id);
     setFormData({
       fullName: user.name,
       userName: user.username,
-      password: "", // Keep password empty for security reasons
+      password: user.password, 
       fatherOrHusbandName: user.guardianName,
       dob: user.dob,
       age: user.age,
@@ -132,12 +178,13 @@ const AdminDashboard = () => {
       doj: user.joiningDate,
       designation: user.designation,
       category: user.workCategory,
-      perDay: "", // This is not needed
+      perDay: "", 
       address: user.address,
       phone: user.phone,
       grossSalary: user.actualGrossSalary,
       email: user.email,
     });
+    console.log('edit form data',user);
     setModalIsOpen(true);
   };
 
@@ -145,7 +192,8 @@ const AdminDashboard = () => {
     try {
       console.log(userId)
       await axios.delete(`http://localhost:8000/api/admin/delete/${userId}`);
-      setUsers(users.filter((user) => user.id !== userId));
+      fetchUsers();
+
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -156,7 +204,7 @@ const AdminDashboard = () => {
         <AdminNavbar UserName={admin.name} />
         <div className="p-8">
           <div className="ViewUser overflow-scroll md:overflow-hidden">
-            <div className="tpHead flex justify-between mx-12 md:mx-32 md:my-4 mb-4">
+            <div className="tpHead flex justify-between mx-2 md:mx-8 md:my-4 mb-4">
               <h2 className="text-2xl">All Users</h2>
               <div
                   className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"

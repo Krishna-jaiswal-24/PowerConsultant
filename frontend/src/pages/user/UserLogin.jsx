@@ -26,8 +26,9 @@ const UserLogin = () => {
 
 	return (
 		<>
-			<nav className="dark:bg-gray-900 px-8 py-3 shadow-md">
-				<h1 className="text-white text-3xl font-bold">Power Consultant</h1>
+			<nav className="dark:bg-gray-900 px-8 py-4 shadow-md">
+			<span className="self-center text-2xl md:ml-28 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
+
 			</nav>
 			{/* <nav className="bg-blue-600 px-8 py-3">
 				<h1 className="text-white text-2xl">Power Consultant</h1>
