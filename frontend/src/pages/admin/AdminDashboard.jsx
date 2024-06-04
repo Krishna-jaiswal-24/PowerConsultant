@@ -122,20 +122,30 @@ const AdminDashboard = () => {
           console.error('Error submitting form:', error);
         }
       } else {
-        // http://localhost:8000/api/admin/editUser/665d6afaa93e673a36b5d7d2
-
+        // console.log('Toggled to put api request');
         try {
-          const response = await axios.put(`http://localhost:8000/api/admin/editUser/${userSpecificId}`, formData);
-          console.log('Pul wala request');
+          
+          const response = await axios.put(`http://localhost:8000/api/admin/editUser/${userSpecificId}`, mappedData);
+          console.log('Put request success', mappedData);
+          setUsers([...users, response.data]); 
           fetchUsers();
           setIsEdit(false);
-          setUserSpecificId(null);
+          // setUserSpecificId(null);
   
         } catch (error) {
+          console.log('put request fail');
           console.error('Error submitting form:', error);
-        }
+          setIsEdit(false);
 
+        }
       }
+      
+      // else {
+      //   // http://localhost:8000/api/admin/editUser/665d6afaa93e673a36b5d7d2
+
+      
+
+      // }
       
     
       
@@ -165,6 +175,7 @@ const AdminDashboard = () => {
   };
 
   const handleEdit = (user) => {
+    console.log(user)
     setIsEdit(true);
     setUserSpecificId(user._id);
     setFormData({

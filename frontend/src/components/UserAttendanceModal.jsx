@@ -14,7 +14,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
   const handleSave = async (e) => {
     e.preventDefault();
     // Handle save logic here
-    console.log({
+    console.log({ 
       date,
       dutyType,
       dutyHours,
@@ -66,7 +66,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
       width: isSmallScreen ? '80%' : '40%',
      margin: 'auto'
     },
-
+ 
   };
 
   return (
