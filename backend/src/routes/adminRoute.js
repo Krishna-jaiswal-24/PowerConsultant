@@ -3,7 +3,7 @@ import {createAdmin,loginAdmin,uploadWages} from "../controllers/adminController
 import {getAllUsers} from "../controllers/userController.js";
 import {deleteUser} from "../controllers/userControllers/deleteUser.js";
 import {editUser} from "../controllers/userControllers/editUser.js";
-
+import {search} from "../controllers/search.js";
 const router=express.Router();
 
 router.post("/create", createAdmin);
@@ -12,4 +12,5 @@ router.get('/getAllUsers',getAllUsers);
 router.post('/uploadWages',uploadWages)
 router.delete('/delete/:id', deleteUser);
 router.put('/editUser/:id', editUser);
+router.post('/search', search);
 export default router;

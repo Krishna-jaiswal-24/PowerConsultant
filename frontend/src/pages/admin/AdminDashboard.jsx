@@ -143,7 +143,8 @@ const AdminDashboard = () => {
 
   const handleDelete = async (userId) => {
     try {
-      await axios.delete(`http://localhost:8000/api/admin/deleteUser/${userId}`);
+      console.log(userId)
+      await axios.delete(`http://localhost:8000/api/admin/delete/${userId}`);
       setUsers(users.filter((user) => user.id !== userId));
     } catch (error) {
       console.error("Error deleting user:", error);
@@ -362,7 +363,7 @@ const AdminDashboard = () => {
               </thead>
               <tbody>
               {users.map((user) => (
-                  <tr key={user.id} className="border-t text-center">
+                  <tr key={user._id} className="border-t text-center">
                     <td className="py-2 px-4 border">{user.name}</td>
                     <td className="py-2 px-4 border">{user.username}</td>
                     <td className="py-2 px-4 border">{user.email}</td>
@@ -375,7 +376,7 @@ const AdminDashboard = () => {
                         Edit
                       </button>
                       <button
-                          onClick={() => handleDelete(user.id)}
+                          onClick={() => handleDelete(user._id)}
                           className="bg-red-500 text-white p-2 rounded"
                       >
                         Delete
