@@ -14,7 +14,6 @@ const AdminDashboard = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [userSpecificId, setUserSpecificId] = useState(null);
 
-  
   const [formData, setFormData] = useState({
     fullName: "",
     userName: "",
@@ -33,6 +32,9 @@ const AdminDashboard = () => {
     email: "",
   });
 
+  const [industries, setIndustries] = useState([]);
+  const [categories, setCategories] = useState([]);
+
   const customStyles = {
     content: {
       borderRadius: '25px',
@@ -46,15 +48,25 @@ const AdminDashboard = () => {
       const response = await axios.get(
           "http://localhost:8000/api/admin/getAllUsers"
       );
-      console.log( response.data.data);
       setUsers(response.data.data);
     } catch (error) {
       console.error("Error fetching users:", error);
     }
   };
 
+  const fetchIndustriesAndCategories = async () => {
+    try {
+      const response = await axios.get("http://localhost:8000/api/admin/getIndustriesAndCategories");
+      setIndustries(response.data.industries);
+      setCategories(response.data.categories);
+    } catch (error) {
+      console.error("Error fetching industries and categories:", error);
+    }
+  };
+
   useEffect(() => {
     fetchUsers();
+    fetchIndustriesAndCategories();
   }, []);
 
   useEffect(() => {
@@ -89,8 +101,6 @@ const AdminDashboard = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     setModalIsOpen(false);
-    console.log('modal closed');
-    console.log(formData);
 
     const submitFormData = async () => {
       const mappedData = {
@@ -109,45 +119,29 @@ const AdminDashboard = () => {
         email: formData.email,
       };
 
-      if(!isEdit){
+      if (!isEdit) {
         try {
           const response = await axios.post('http://localhost:8000/api/user/create', mappedData);
-          console.log('post wala request')
-          // console.log('Response:', response.data);
-          setUsers([...users, response.data]); // 
+          setUsers([...users, response.data]);
           fetchUsers();
-  
         } catch (error) {
-          console.log('post wala error');
           console.error('Error submitting form:', error);
         }
       } else {
-        // console.log('Toggled to put api request');
         try {
-          
           const response = await axios.put(`http://localhost:8000/api/admin/editUser/${userSpecificId}`, mappedData);
-          console.log('Put request success', mappedData);
-          setUsers([...users, response.data]); 
+          setUsers([...users, response.data]);
           fetchUsers();
           setIsEdit(false);
-          // setUserSpecificId(null);
-  
         } catch (error) {
-          console.log('put request fail');
           console.error('Error submitting form:', error);
           setIsEdit(false);
-
         }
       }
-      
-      
-            
-    
-      
     };
 
     submitFormData();
-    
+
     setFormData({
       fullName: "",
       userName: "",
@@ -164,9 +158,7 @@ const AdminDashboard = () => {
       phone: "",
       grossSalary: "",
       email: "",
-      
     });
-    
   };
 
   const formatDate = (dateString) => {
@@ -178,36 +170,32 @@ const AdminDashboard = () => {
   };
 
   const handleEdit = (user) => {
-    console.log(user)
     setIsEdit(true);
     setUserSpecificId(user._id);
     setFormData({
       fullName: user.name,
       userName: user.username,
-      password: user.password, 
+      password: user.password,
       fatherOrHusbandName: user.guardianName,
-      dob:  formatDate(user.dob),
+      dob: formatDate(user.dob),
       age: user.age,
       sex: user.sex,
       doj: formatDate(user.joiningDate),
       designation: user.designation,
       category: user.workCategory,
-      perDay: "", 
+      perDay: "",
       address: user.address,
       phone: user.phone,
       grossSalary: user.actualGrossSalary,
       email: user.email,
     });
-    console.log('edit form data',user);
     setModalIsOpen(true);
   };
 
   const handleDelete = async (userId) => {
     try {
-      console.log(userId)
       await axios.delete(`http://localhost:8000/api/admin/delete/${userId}`);
       fetchUsers();
-
     } catch (error) {
       console.error("Error deleting user:", error);
     }
@@ -222,9 +210,7 @@ const AdminDashboard = () => {
               <h2 className="text-2xl">All Users</h2>
               <div
                   className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
-                  onClick={() => {
-                    setModalIsOpen(true);
-                  }}
+                  onClick={() => setModalIsOpen(true)}
               >
                 <CgUserAdd className="text-2xl mr-2" />
                 <h2>Add User</h2>
@@ -235,9 +221,7 @@ const AdminDashboard = () => {
               <Modal isOpen={modalIsOpen} contentLabel="Example Modal" style={customStyles}>
                 <div
                     className="flex justify-end"
-                    onClick={() => {
-                      setModalIsOpen(false);
-                    }}
+                    onClick={() => setModalIsOpen(false)}
                 >
                   <IoClose className="text-4xl" />
                 </div>
@@ -277,7 +261,7 @@ const AdminDashboard = () => {
                     />
                   </div>
                   <div>
-                    <label>Father's/Husband's Name</label>
+                    <label>Father/Husband Name</label>
                     <input
                         type="text"
                         name="fatherOrHusbandName"
@@ -343,9 +327,12 @@ const AdminDashboard = () => {
                         className="block w-full mt-1 p-2 border"
                         required
                     >
-                      <option value="opt1">Option 1</option>
-                      <option value="opt2">Option 2</option>
-                      <option value="opt3">Option 3</option>
+                      <option value="">Select Industry</option>
+                      {industries.map((industry, index) => (
+                          <option key={index} value={industry}>
+                            {industry}
+                          </option>
+                      ))}
                     </select>
                   </div>
                   <div>
@@ -357,9 +344,12 @@ const AdminDashboard = () => {
                         className="block w-full mt-1 p-2 border"
                         required
                     >
-                      <option value="ctg1">Category 1</option>
-                      <option value="ctg2">Category 2</option>
-                      <option value="ctg3">Category 3</option>
+                      <option value="">Select Category</option>
+                      {categories.map((category, index) => (
+                          <option key={index} value={category}>
+                            {category}
+                          </option>
+                      ))}
                     </select>
                   </div>
                   <div>

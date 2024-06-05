@@ -116,4 +116,17 @@ const uploadWages=async(req,res)=>{
     req.pipe(bb);
 }
 
+
+export const getIndustriesAndCategories = async (req, res) => {
+	try {
+		const industries = await MinWage.distinct('industry');
+		const categories = await MinWage.distinct('category');
+		res.status(200).json({
+			industries,
+			categories,
+		});
+	} catch (error) {
+		res.status(500).json({ error: 'Server Error' });
+	}
+};
 export {createAdmin, loginAdmin,uploadWages};

@@ -1,5 +1,5 @@
 import express from "express";
-import {createAdmin,loginAdmin,uploadWages} from "../controllers/adminController.js";
+import {createAdmin,loginAdmin,uploadWages,getIndustriesAndCategories} from "../controllers/adminController.js";
 import {getAllUsers} from "../controllers/userController.js";
 import {deleteUser} from "../controllers/userControllers/deleteUser.js";
 import {editUser} from "../controllers/userControllers/editUser.js";
@@ -13,4 +13,5 @@ router.post('/uploadWages',uploadWages)
 router.delete('/delete/:id', deleteUser);
 router.put('/editUser/:id', editUser);
 router.post('/search', search);
+router.get('/getIndustriesAndCategories', getIndustriesAndCategories);
 export default router;
