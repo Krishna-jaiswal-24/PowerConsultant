@@ -222,6 +222,24 @@ const AdminDashboard = () => {
                 <div
                     className="flex justify-end"
                     onClick={() => setModalIsOpen(false)}
+                    setFormData({
+                      fullName: "",
+                      userName: "",
+                      password: "",
+                      fatherOrHusbandName: "",
+                      dob: "",
+                      age: "",
+                      sex: "",
+                      doj: "",
+                      designation: "",
+                      category: "",
+                      perDay: "",
+                      address: "",
+                      phone: "",
+                      grossSalary: "",
+                      email: "",
+                      
+                    });
                 >
                   <IoClose className="text-4xl" />
                 </div>
