@@ -221,25 +221,27 @@ const AdminDashboard = () => {
               <Modal isOpen={modalIsOpen} contentLabel="Example Modal" style={customStyles}>
                 <div
                     className="flex justify-end"
-                    onClick={() => setModalIsOpen(false)}
-                    setFormData({
-                      fullName: "",
-                      userName: "",
-                      password: "",
-                      fatherOrHusbandName: "",
-                      dob: "",
-                      age: "",
-                      sex: "",
-                      doj: "",
-                      designation: "",
-                      category: "",
-                      perDay: "",
-                      address: "",
-                      phone: "",
-                      grossSalary: "",
-                      email: "",
-                      
-                    });
+                    onClick={() => { setModalIsOpen(false)
+                      setFormData({
+                        fullName: "",
+                        userName: "",
+                        password: "",
+                        fatherOrHusbandName: "",
+                        dob: "",
+                        age: "",
+                        sex: "",
+                        doj: "",
+                        designation: "",
+                        category: "",
+                        perDay: "",
+                        address: "",
+                        phone: "",
+                        grossSalary: "",
+                        email: "",
+                      })                   
+
+                    }
+                    }
                 >
                   <IoClose className="text-4xl" />
                 </div>
