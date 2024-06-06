@@ -103,24 +103,26 @@ const AdminDashboard = () => {
     setModalIsOpen(false);
 
     const submitFormData = async () => {
-      const mappedData = {
-        name: formData.fullName,
-        username: formData.userName,
-        password: formData.password,
-        guardianName: formData.fatherOrHusbandName,
-        dob: formData.dob,
-        sex: formData.sex,
-        joiningDate: formData.doj,
-        designation: formData.designation,
-        workCategory: formData.category,
-        address: formData.address,
-        phone: formData.phone,
-        actualGrossSalary: formData.grossSalary,
-        email: formData.email,
-      };
+     
 
       if (!isEdit) {
+        const mappedData = {
+          name: formData.fullName,
+          username: formData.userName,
+          password: formData.password,
+          guardianName: formData.fatherOrHusbandName,
+          dob: formData.dob,
+          sex: formData.sex,
+          joiningDate: formData.doj,
+          designation: formData.designation,
+          workCategory: formData.category,
+          address: formData.address,
+          phone: formData.phone,
+          actualGrossSalary: formData.grossSalary,
+          email: formData.email,
+        };
         try {
+        
           const response = await axios.post('http://localhost:8000/api/user/create', mappedData);
           setUsers([...users, response.data]);
           fetchUsers();
@@ -128,7 +130,25 @@ const AdminDashboard = () => {
           console.error('Error submitting form:', error);
         }
       } else {
+
+        const mappedData = {
+          name: formData.fullName,
+          username: formData.userName,
+          // password: formData.password,
+          guardianName: formData.fatherOrHusbandName,
+          dob: formData.dob,
+          sex: formData.sex,
+          joiningDate: formData.doj,
+          designation: formData.designation,
+          workCategory: formData.category,
+          address: formData.address,
+          phone: formData.phone,
+          actualGrossSalary: formData.grossSalary,
+          email: formData.email,
+        };
+
         try {
+          
           const response = await axios.put(`http://localhost:8000/api/admin/editUser/${userSpecificId}`, mappedData);
           setUsers([...users, response.data]);
           fetchUsers();
@@ -175,7 +195,7 @@ const AdminDashboard = () => {
     setFormData({
       fullName: user.name,
       userName: user.username,
-      password: user.password,
+      password: null,
       fatherOrHusbandName: user.guardianName,
       dob: formatDate(user.dob),
       age: user.age,

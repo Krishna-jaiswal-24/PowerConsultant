@@ -18,6 +18,8 @@ const UserDashboard = () => {
 
 	const closeModal = () => {
 		setModalIsOpen(false);
+		fetchAttendanceDetails(); // Refresh the attendance details after adding/editing
+
 		setEditDetail(null); // Reset edit detail on modal close
 	};
 

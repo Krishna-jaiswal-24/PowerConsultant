@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Modal from "react-modal";
 import { IoClose } from "react-icons/io5";
 import axios from "axios";
 
-function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
+function UserAttendanceModal({ isOpen, onRequestClose, userId, editDetail }) {
   const [date, setDate] = useState("");
   const [dutyHours, setDutyHours] = useState("");
   const [otHours, setOtHours] = useState("");
@@ -11,47 +11,56 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
   const [remark, setRemark] = useState("");
   const [dutyType, setDutyType] = useState("");
 
+  useEffect(() => {
+    if (editDetail) {
+      setDate(editDetail.date);
+      setDutyHours(editDetail.dutyHours);
+      setOtHours(editDetail.otHours);
+      setSiteLocation(editDetail.siteLocation);
+      setRemark(editDetail.remark);
+      setDutyType(editDetail.dutyType);
+    } else {
+      setDate("");
+      setDutyHours("");
+      setOtHours("");
+      setSiteLocation("");
+      setRemark("");
+      setDutyType("");
+    }
+  }, [editDetail]);
+
   const handleSave = async (e) => {
     e.preventDefault();
-    // Handle save logic here
-    console.log({ 
+    const formData = { 
+      userId,
       date,
       dutyType,
       dutyHours,
       otHours,
       siteLocation,
       remark,
-      userId,
-    });
+    };
+
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/user/attendance",
-        {
-          userId,
-          date,
-          dutyType,
-          dutyHours,
-          otHours,
-          siteLocation,
-          remark,
-        }
-      );
-      console.log(response);
-      onRequestClose(); // Close modal after successful save
+      if (editDetail) {
+        await axios.put(`http://localhost:8000/api/user/attendance/${editDetail._id}`, formData);
+      } else {
+        await axios.post("http://localhost:8000/api/user/attendance", formData);
+      }
+      onRequestClose();
     } catch (error) {
-      console.error(error);
+      console.error("Error saving attendance detail:", error);
     }
   };
 
   const handleCancel = () => {
-    // Handle cancel logic here
-    setDate("");
-    setDutyHours("");
-    setOtHours("");
-    setSiteLocation("");
-    setRemark("");
-    setDutyType("");
     onRequestClose();
+    setDate("");
+      setDutyHours("");
+      setOtHours("");
+      setSiteLocation("");
+      setRemark("");
+      setDutyType("");
   };
 
   const handleChangeDutyType = (event) => {
@@ -64,32 +73,24 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
     content: {
       borderRadius: '20px',
       width: isSmallScreen ? '80%' : '40%',
-     margin: 'auto'
+      margin: 'auto'
     },
- 
   };
 
   return (
     <div>
-      <Modal isOpen={isOpen} onRequestClose={onRequestClose}
-      style={customStyles}
-
-      > 
-      
+      <Modal isOpen={isOpen} onRequestClose={onRequestClose} style={customStyles}>
         <div className="flex justify-end" onClick={onRequestClose}>
           <IoClose className="text-4xl cursor-pointer" />
         </div>
         <div className="flex justify-center items-center my-20">
           <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-md">
             <h2 className="text-2xl font-bold mb-4 text-center">
-              Add Details for Attendance
+              {editDetail ? "Edit Attendance Details" : "Add Details for Attendance"}
             </h2>
             <form onSubmit={handleSave}>
               <div className="mb-4">
-                <label
-                  htmlFor="date"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
+                <label htmlFor="date" className="block text-gray-700 text-sm font-bold mb-2">
                   Date:
                 </label>
                 <input
@@ -118,10 +119,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
                 </select>
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="dutyHours"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
+                <label htmlFor="dutyHours" className="block text-gray-700 text-sm font-bold mb-2">
                   Duty Hours Details:
                 </label>
                 <input
@@ -134,10 +132,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="otHours"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
+                <label htmlFor="otHours" className="block text-gray-700 text-sm font-bold mb-2">
                   OT Hours:
                 </label>
                 <input
@@ -150,10 +145,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="siteLocation"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
+                <label htmlFor="siteLocation" className="block text-gray-700 text-sm font-bold mb-2">
                   Site Location:
                 </label>
                 <input
@@ -166,10 +158,7 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId }) {
                 />
               </div>
               <div className="mb-4">
-                <label
-                  htmlFor="remark"
-                  className="block text-gray-700 text-sm font-bold mb-2"
-                >
+                <label htmlFor="remark" className="block text-gray-700 text-sm font-bold mb-2">
                   Remark:
                 </label>
                 <input
