@@ -213,13 +213,17 @@ const AdminDashboard = () => {
   };
 
   const handleDelete = async (userId) => {
-    try {
-      await axios.delete(`http://localhost:8000/api/admin/delete/${userId}`);
-      fetchUsers();
-    } catch (error) {
-      console.error("Error deleting user:", error);
+    const confirmDelete = window.confirm("Are you sure you want to delete this user?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:8000/api/admin/delete/${userId}`);
+        fetchUsers();
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
     }
   };
+  
 
   return (
       <div className="w-full">
@@ -228,6 +232,7 @@ const AdminDashboard = () => {
           <div className="ViewUser overflow-scroll md:overflow-hidden">
             <div className="tpHead flex justify-between mx-2 md:mx-8 md:my-4 mb-4">
               <h2 className="text-2xl">All Users</h2>
+                
               <div
                   className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
                   onClick={() => setModalIsOpen(true)}

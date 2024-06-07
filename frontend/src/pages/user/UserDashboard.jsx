@@ -64,13 +64,17 @@ const UserDashboard = () => {
 	};
 
 	const handleDeleteClick = async (detailId) => {
-		try {
-			await axios.delete(`http://localhost:8000/api/user/attendance/${detailId}`);
-			fetchAttendanceDetails(); // Refresh the attendance details after deletion
-		} catch (error) {
-			console.error("Error deleting attendance detail:", error);
+		const userConfirmed = window.confirm("Are you sure you want to delete this attendance detail?");
+		if (userConfirmed) {
+			try {
+				await axios.delete(`http://localhost:8000/api/user/attendance/${detailId}`);
+				fetchAttendanceDetails(); // Refresh the attendance details after deletion
+			} catch (error) {
+				console.error("Error deleting attendance detail:", error);
+			}
 		}
 	};
+	
 
 	return (
 		<div>
