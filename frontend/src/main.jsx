@@ -10,6 +10,8 @@ import UserDashboard from "./pages/user/UserDashboard.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import UserAddAttendance from "./pages/user/UserAddAttendance.jsx";
 import ViewAllUser from "./pages/admin/ViewAllUser.jsx";
+import DetailedUserView from "./pages/admin/DetailedUserView.jsx";
+import Allattendance from "./pages/admin/Allattendance.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +46,13 @@ const router = createBrowserRouter([
     path: "/admin/dashboard/view-users",
     element: <ViewAllUser/>,
   },
+  {
+    path: "/admin/dashboard/individual-user-detail",
+    element: <DetailedUserView/>
+  },
+  {
+    path: "/admin/dashboard/user-attendance",
+    element: <Allattendance/>  },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

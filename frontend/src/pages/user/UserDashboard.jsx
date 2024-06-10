@@ -20,8 +20,8 @@ const UserDashboard = () => {
 
 	const closeModal = () => {
 		setModalIsOpen(false);
+		
 		fetchAttendanceDetails(); // Refresh the attendance details after adding/editing
-
 		setEditDetail(null); // Reset edit detail on modal close
 	};
 
@@ -66,6 +66,7 @@ const UserDashboard = () => {
 		} catch (error) {
 			console.error("Error adding/editing attendance detail:", error);
 		}
+		
 	};
 
 	const handleEditClick = (detail) => {
@@ -99,7 +100,7 @@ const UserDashboard = () => {
 
 	return (
 		<div>
-			<AdminNavbar />
+			<AdminNavbar UserName={user.name} />
 			<div className="p-12">
 				<div className="flex justify-between items-center mb-4">
 					<h2 className="text-2xl">Attendance Details</h2>

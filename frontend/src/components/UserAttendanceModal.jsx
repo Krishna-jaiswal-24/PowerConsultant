@@ -48,6 +48,12 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId, editDetail }) {
         await axios.post("http://localhost:8000/api/user/attendance", formData);
       }
       onRequestClose();
+      setDate("");
+      setDutyHours("");
+      setOtHours("");
+      setSiteLocation("");
+      setRemark("");
+      setDutyType("");
     } catch (error) {
       console.error("Error saving attendance detail:", error);
     }
@@ -80,7 +86,14 @@ function UserAttendanceModal({ isOpen, onRequestClose, userId, editDetail }) {
   return (
     <div>
       <Modal isOpen={isOpen} onRequestClose={onRequestClose} style={customStyles}>
-        <div className="flex justify-end" onClick={onRequestClose}>
+        <div className="flex justify-end" onClick={ () => { onRequestClose() 
+          setDate("");
+          setDutyHours("");
+          setOtHours("");
+          setSiteLocation("");
+          setRemark("");
+          setDutyType("");
+        }}>
           <IoClose className="text-4xl cursor-pointer" />
         </div>
         <div className="flex justify-center items-center my-20">
