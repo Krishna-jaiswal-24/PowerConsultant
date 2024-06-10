@@ -494,7 +494,7 @@ const AdminDashboard = () => {
               </tr>
               </thead>
               <tbody>
-              {filteredUsers.map((user) => (
+              {users.map((user) => (
                   <tr key={user._id} className="border-t text-center">
                     <td className="py-2 px-4 border">{user.name}</td>
                     <td className="py-2 px-4 border">{user.username}</td>
