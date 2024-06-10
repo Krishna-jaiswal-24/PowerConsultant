@@ -4,11 +4,13 @@ import UserAttendanceModal from "../../components/UserAttendanceModal";
 import { useLocation } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
 import { CgUserAdd } from "react-icons/cg";
+import ResetPasswordModal from "../../components/ForgotPasswordModal.jsx";
 
 const UserDashboard = () => {
 	const location = useLocation();
 	const user = location.state.user;
 	const [modalIsOpen, setModalIsOpen] = useState(false);
+	const [resetModalIsOpen, setResetModalIsOpen] = useState(false); // State for reset password modal
 	const [attendanceDetails, setAttendanceDetails] = useState([]);
 	const [editDetail, setEditDetail] = useState(null); // State for editing detail
 
@@ -21,6 +23,14 @@ const UserDashboard = () => {
 		fetchAttendanceDetails(); // Refresh the attendance details after adding/editing
 
 		setEditDetail(null); // Reset edit detail on modal close
+	};
+
+	const openResetModal = () => {
+		setResetModalIsOpen(true);
+	};
+
+	const closeResetModal = () => {
+		setResetModalIsOpen(false);
 	};
 
 	const fetchAttendanceDetails = async () => {
@@ -77,12 +87,15 @@ const UserDashboard = () => {
 
 	const customStyles = {
 		content: {
-		  borderRadius: '25px',
-		  height: '90%',
-		  padding: '1rem',
+			borderRadius: '25px',
+			height: 'fit-content',
+			padding: '2rem',
+			width: '50%',
+			margin: 'auto',
+
 		},
-	  };
-	
+	};
+
 
 	return (
 		<div>
@@ -90,12 +103,20 @@ const UserDashboard = () => {
 			<div className="p-12">
 				<div className="flex justify-between items-center mb-4">
 					<h2 className="text-2xl">Attendance Details</h2>
-					<div
-						className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
-						onClick={openModal}
-					>
-						<CgUserAdd className="text-2xl mr-2" />
-						<h2>Add Attendance</h2>
+					<div className="flex space-x-4">
+						<div
+							className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
+							onClick={openModal}
+						>
+							<CgUserAdd className="text-2xl mr-2" />
+							<h2>Add Attendance</h2>
+						</div>
+						<div
+							className="flex border border-black p-2 rounded items-center cursor-pointer  transform transition-transform hover:scale-105"
+							onClick={openResetModal}
+						>
+							<h2>Reset Password</h2>
+						</div>
 					</div>
 				</div>
 				<div>
@@ -104,9 +125,13 @@ const UserDashboard = () => {
 						onRequestClose={closeModal}
 						onSubmit={handleAddAttendanceDetails}
 						userId={user._id}
-						editDetail={editDetail} 
-						customStyles = {customStyles}
-						
+						editDetail={editDetail}
+						customStyles={customStyles}
+					/>
+					<ResetPasswordModal
+						isOpen={resetModalIsOpen}
+						onRequestClose={closeResetModal}
+						customStyles={customStyles}
 					/>
 				</div>
 				<div className="overflow-scroll md:overflow-hidden">
