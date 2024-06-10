@@ -237,6 +237,10 @@ const AdminDashboard = () => {
       }
     }
   };
+
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
   
 
   return (
@@ -246,14 +250,20 @@ const AdminDashboard = () => {
           <div className="ViewUser overflow-scroll md:overflow-hidden">
             <div className="AllUserHeading tpHead flex flex-col md:justify-between mx-2 md:mx-8 md:my-4 mb-4 md:flex-row">
               <h2 className="text-2xl flex justify-center pb-4 md:mt-1">All Users</h2>
-              <div className="">
+              <div className="flex">
         <input 
           type="text" 
           placeholder="Search users..." 
           value={searchTerm} 
           onChange={handleSearch} 
-          className="p-2 border border-black rounded mb-4 w-full md:w-80 md:mt-[0.3rem]"
+          className="p-2 border border-black rounded mb-4 w-full md:w-96 md:mt-[0.3rem]"
         />
+        {searchTerm && (
+            <IoClose 
+              className="text-4xl mt-1 cursor-pointer mb-5" 
+              onClick={clearSearch}
+            />
+          )}
         </div>
                 
               <div

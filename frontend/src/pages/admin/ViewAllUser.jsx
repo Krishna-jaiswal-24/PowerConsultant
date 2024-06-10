@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from '../../components/AdminNavbar';
 import axios from "axios";
+import { IoClose } from "react-icons/io5";
 
 function ViewAllUser() {
   const [users, setUsers] = useState([]);
@@ -25,6 +26,10 @@ function ViewAllUser() {
     setSearchTerm(e.target.value);
   };
 
+  const clearSearch = () => {
+    setSearchTerm("");
+  };
+
   const filteredUsers = users.filter(user => 
     user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
     user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -36,13 +41,21 @@ function ViewAllUser() {
     <div>
       <AdminNavbar />
       <div className="p-12">
-        <input 
-          type="text" 
-          placeholder="Search users..." 
-          value={searchTerm} 
-          onChange={handleSearch} 
-          className="p-2 border rounded mb-4 w-full"
-        />
+        <div className="flex items-center">
+          <input 
+            type="text" 
+            placeholder="Search users..." 
+            value={searchTerm} 
+            onChange={handleSearch} 
+            className="p-2 border border-black rounded mb-4 w-full "
+          />
+          {searchTerm && (
+            <IoClose 
+              className="text-4xl mt-1 cursor-pointer mb-5" 
+              onClick={clearSearch}
+            />
+          )}
+        </div>
         <table className="min-w-full bg-white border">
           <thead>
             <tr>
