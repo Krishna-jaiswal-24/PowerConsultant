@@ -76,10 +76,10 @@ const AdminDashboard = () => {
   };
 
   const filteredUsers = users.filter(user => 
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.phone.includes(searchTerm)
+    (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (user.username && user.username.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (user.email && user.email.toLowerCase().includes(searchTerm.toLowerCase())) ||
+    (user.phone && user.phone.includes(searchTerm))
   );
 
 
@@ -297,7 +297,8 @@ const AdminDashboard = () => {
                         phone: "",
                         grossSalary: "",
                         email: "",
-                      })                   
+                      })  
+                      setIsEdit(false)                 
 
                     }
                     }
@@ -328,7 +329,7 @@ const AdminDashboard = () => {
                         required
                     />
                   </div>
-                  <div>
+                  {/* <div>
                     <label>Password</label>
                     <input
                         type="password"
@@ -338,7 +339,18 @@ const AdminDashboard = () => {
                         className="block w-full mt-1 p-2 border"
                         required
                     />
-                  </div>
+                  </div> */}
+                 { !isEdit &&  <div>
+                    <label>Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="block w-full mt-1 p-2 border"
+                        required
+                    />
+                  </div>}
                   <div>
                     <label>Father/Husband Name</label>
                     <input
@@ -494,7 +506,7 @@ const AdminDashboard = () => {
               </tr>
               </thead>
               <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                   <tr key={user._id} className="border-t text-center">
                     <td className="py-2 px-4 border">{user.name}</td>
                     <td className="py-2 px-4 border">{user.username}</td>
