@@ -74,6 +74,14 @@ const UserDashboard = () => {
 			}
 		}
 	};
+
+	const customStyles = {
+		content: {
+		  borderRadius: '25px',
+		  height: '90%',
+		  padding: '1rem',
+		},
+	  };
 	
 
 	return (
@@ -87,7 +95,7 @@ const UserDashboard = () => {
 						onClick={openModal}
 					>
 						<CgUserAdd className="text-2xl mr-2" />
-						<h2>Add Attendance Details</h2>
+						<h2>Add Attendance</h2>
 					</div>
 				</div>
 				<div>
@@ -96,7 +104,9 @@ const UserDashboard = () => {
 						onRequestClose={closeModal}
 						onSubmit={handleAddAttendanceDetails}
 						userId={user._id}
-						editDetail={editDetail} // Pass edit detail to modal
+						editDetail={editDetail} 
+						customStyles = {customStyles}
+						
 					/>
 				</div>
 				<div className="overflow-scroll md:overflow-hidden">

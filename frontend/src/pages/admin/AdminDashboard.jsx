@@ -8,11 +8,13 @@ import { IoClose } from "react-icons/io5";
 
 const AdminDashboard = () => {
   const location = useLocation();
-  const admin = location.state.admin;
+  const admin = location.state?.admin;
   const [users, setUsers] = useState([]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [userSpecificId, setUserSpecificId] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -68,6 +70,18 @@ const AdminDashboard = () => {
     fetchUsers();
     fetchIndustriesAndCategories();
   }, []);
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const filteredUsers = users.filter(user => 
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.phone.includes(searchTerm)
+  );
+
 
   useEffect(() => {
     if (formData.dob) {
@@ -230,20 +244,30 @@ const AdminDashboard = () => {
         <AdminNavbar UserName={admin.name} />
         <div className="p-8">
           <div className="ViewUser overflow-scroll md:overflow-hidden">
-            <div className="tpHead flex justify-between mx-2 md:mx-8 md:my-4 mb-4">
-              <h2 className="text-2xl">All Users</h2>
+            <div className="AllUserHeading tpHead flex flex-col md:justify-between mx-2 md:mx-8 md:my-4 mb-4 md:flex-row">
+              <h2 className="text-2xl flex justify-center pb-4 md:mt-1">All Users</h2>
+              <div className="">
+        <input 
+          type="text" 
+          placeholder="Search users..." 
+          value={searchTerm} 
+          onChange={handleSearch} 
+          className="p-2 border border-black rounded mb-4 w-full md:w-80 md:mt-[0.3rem]"
+        />
+        </div>
                 
               <div
-                  className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
+                  className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105 md:w-30 md:h-12"
                   onClick={() => setModalIsOpen(true)}
               >
-                <CgUserAdd className="text-2xl mr-2" />
+                <CgUserAdd className="text-2xl mr-2 " />
                 <h2>Add User</h2>
               </div>
             </div>
 
             <div className="flex justify-center items-center">
               <Modal isOpen={modalIsOpen} contentLabel="Example Modal" style={customStyles}>
+                <div className="">
                 <div
                     className="flex justify-end"
                     onClick={() => { setModalIsOpen(false)
@@ -445,6 +469,7 @@ const AdminDashboard = () => {
                     Submit
                   </button>
                 </form>
+                </div>
               </Modal>
             </div>
 
@@ -459,7 +484,7 @@ const AdminDashboard = () => {
               </tr>
               </thead>
               <tbody>
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                   <tr key={user._id} className="border-t text-center">
                     <td className="py-2 px-4 border">{user.name}</td>
                     <td className="py-2 px-4 border">{user.username}</td>
