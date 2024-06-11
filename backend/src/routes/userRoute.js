@@ -3,7 +3,7 @@ import {addDetails, createUser, loginUser} from "../controllers/userController.j
 import {getAttendanceDetails} from "../controllers/userControllers/getAttendanceDetails.js";
 import {deleteAttendance} from "../controllers/userControllers/deleteAttendance.js";
 import {editAttendance} from "../controllers/userControllers/editAttendance.js";
-import {forgotPassword} from "../controllers/userControllers/forgotPassword.js";
+import {forgotPassword , resetPassword} from "../controllers/userControllers/forgotPassword.js";
 
 
 const router = express.Router();
@@ -15,4 +15,5 @@ router.get('/attendance/:userId', getAttendanceDetails);
 router.delete('/attendance/:id', deleteAttendance);
 router.put('/attendance/:id', editAttendance);
 router.post('/forgot-password', forgotPassword);
+router.post('/reset-password', resetPassword);
 export default router;

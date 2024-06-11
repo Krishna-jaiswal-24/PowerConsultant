@@ -80,6 +80,9 @@ const userSchema = new mongoose.Schema({
 		type: String,
 		required: true,
 	},
+	wage: {
+		type: Number,
+	},
 
 }, {timestamps: true});
 

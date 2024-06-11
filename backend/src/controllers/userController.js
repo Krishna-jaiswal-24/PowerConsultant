@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import AttendanceDetails from "../models/attendance.js";
+import MinWages from "../models/minWages.js";
 
 import bcrypt from "bcrypt";
 
@@ -34,7 +35,18 @@ const createUser = async (req, res) => {
   }
   const saltRounds = 10;
   const hashedPassword = await bcrypt.hash(password, saltRounds);
+
   console.log(req.body);
+
+  const minWage=await MinWages.findOne({category:workCategory,industry:designation});
+    console.log(minWage);
+    if(!minWage){
+      return res.status(400).json({
+        success: false,
+        message: "MinWage not found",
+      });
+    }
+    const wage=minWage.perDay;
   try {
     const newUser = new User({
       username,
@@ -50,6 +62,7 @@ const createUser = async (req, res) => {
       sex,
       workCategory,
       designation,
+      wage:wage
     });
     await newUser.save();
     res.status(201).json({

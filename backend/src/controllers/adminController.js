@@ -117,16 +117,34 @@ const uploadWages=async(req,res)=>{
 }
 
 
-export const getIndustriesAndCategories = async (req, res) => {
+const getIndustriesAndCategories = async (req, res) => {
 	try {
-		const industries = await MinWage.distinct('industry');
-		const categories = await MinWage.distinct('category');
-		res.status(200).json({
-			industries,
-			categories,
-		});
+		const minWages = await MinWage.find({}, 'industry category perDay');
+
+		const result = minWages.reduce((acc, wage) => {
+			const { industry, category, perDay } = wage;
+
+			if (!acc.industries.includes(industry)) {
+				acc.industries.push(industry);
+			}
+
+			if (!acc.categories.includes(category)) {
+				acc.categories.push(category);
+			}
+
+			if (!acc.perDay[industry]) {
+				acc.perDay[industry] = {};
+			}
+
+			acc.perDay[industry][category] = perDay;
+
+			return acc;
+		}, { industries: [], categories: [], perDay: {} });
+
+		res.status(200).json(result);
 	} catch (error) {
 		res.status(500).json({ error: 'Server Error' });
 	}
 };
-export {createAdmin, loginAdmin,uploadWages};
+
+export {createAdmin, loginAdmin,uploadWages,getIndustriesAndCategories};
