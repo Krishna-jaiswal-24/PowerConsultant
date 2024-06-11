@@ -91,7 +91,7 @@ const UserDashboard = () => {
 			borderRadius: '25px',
 			height: 'fit-content',
 			padding: '2rem',
-			width: '50%',
+			width: '40%',
 			margin: 'auto',
 
 		},
