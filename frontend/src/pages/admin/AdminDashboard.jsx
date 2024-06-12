@@ -283,7 +283,8 @@ const AdminDashboard = () => {
             <h2 className="text-2xl flex justify-center pb-4 md:mt-1">
               All Users
             </h2>
-            <div className="flex">
+            <div className="flex flex-row">
+            <div className="flex mt-2 md:mt-1">
               <input
                 type="text"
                 placeholder="Search users..."
@@ -300,12 +301,14 @@ const AdminDashboard = () => {
             </div>
 
             <div
-              className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105 md:w-30 md:h-12"
+              className="flex border border-black m-2 p-2 h-10 rounded items-center cursor-pointer transform transition-transform hover:scale-105 md:w-30 md:h-11"
               onClick={() => setModalIsOpen(true)}
             >
-              <CgUserAdd className="text-2xl mr-2 " />
-              <h2>Add User</h2>
+              <CgUserAdd className="text-xl mr-2 " />
+              <h2 className="text-xs">Add User</h2>
             </div>
+            </div>
+
           </div>
 
           <div className="flex justify-center items-center">
@@ -554,22 +557,22 @@ const AdminDashboard = () => {
               {filteredUsers.map((user) => (
                 <tr key={user._id} className="border-t text-center">
                   <td className="py-2 px-4 border">
-                    <Link to="/admin/dashboard/individual-user-detail">
+                    <Link to={`/admin/dashboard/individual-user-detail/${user._id}`}>
                       {user.name}
                     </Link>
                   </td>
                   <td className="py-2 px-4 border">
-                    <Link to="/admin/dashboard/individual-user-detail">
+                    <Link to={`/admin/dashboard/individual-user-detail/${user._id}`}>
                       {user.username}
                     </Link>
                   </td>
                   <td className="py-2 px-4 border">
-                    <Link to="/admin/dashboard/individual-user-detail">
+                    <Link to={`/admin/dashboard/individual-user-detail/${user._id}`}>
                       {user.email}
                     </Link>
                   </td>
                   <td className="py-2 px-4 border">
-                    <Link to="/admin/dashboard/individual-user-detail">
+                    <Link to={`/admin/dashboard/individual-user-detail/${user._id}`}>
                       {user.phone}
                     </Link>
                   </td>

@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     element: <ViewAllUser/>,
   },
   {
-    path: "/admin/dashboard/individual-user-detail",
+    path: "/admin/dashboard/individual-user-detail/:id",
     element: <DetailedUserView/>
   },
   {

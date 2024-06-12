@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import { Link, useLocation } from "react-router-dom";
-import axios from 'axios'; // Ensure axios is imported for API calls
+import axios from 'axios'; 
 
 function DetailedUserView() {
   const location = useLocation();

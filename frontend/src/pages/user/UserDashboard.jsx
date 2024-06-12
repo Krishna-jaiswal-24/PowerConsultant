@@ -102,21 +102,21 @@ const UserDashboard = () => {
 		<div>
 			<AdminNavbar UserName={user.name} />
 			<div className="p-12">
-				<div className="flex justify-between items-center mb-4">
-					<h2 className="text-2xl">Attendance Details</h2>
+				<div className="flex flex-col-reverse md:flex-row justify-between mb-4">
+					<h2 className="text-2xl flex justify-start mt-2">Attendance Details: </h2>
 					<div className="flex space-x-4">
 						<div
 							className="flex border border-black p-2 rounded items-center cursor-pointer transform transition-transform hover:scale-105"
 							onClick={openModal}
 						>
-							<CgUserAdd className="text-2xl mr-2" />
-							<h2>Add Attendance</h2>
+							<CgUserAdd className="text-xl mr-2" />
+							<h2 className="text-xs">Add Attendance</h2>
 						</div>
 						<div
 							className="flex border border-black p-2 rounded items-center cursor-pointer  transform transition-transform hover:scale-105"
 							onClick={openResetModal}
 						>
-							<h2>Reset Password</h2>
+							<h2 className="text-xs">Reset Password</h2>
 						</div>
 					</div>
 				</div>

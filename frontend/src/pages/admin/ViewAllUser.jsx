@@ -45,7 +45,7 @@ function ViewAllUser() {
           <input 
             type="text" 
             placeholder="Search users..." 
-            value={searchTerm} 
+            value={searchTerm}  
             onChange={handleSearch} 
             className="p-2 border border-black rounded mb-4 w-full "
           />
