@@ -14,6 +14,7 @@ const AdminDashboard = () => {
   const [isEdit, setIsEdit] = useState(false);
   const [userSpecificId, setUserSpecificId] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [errors, setErrors] = useState({ phone: '' });
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -35,10 +36,13 @@ const AdminDashboard = () => {
 
   const [industries, setIndustries] = useState([]);
   const [categories, setCategories] = useState([]);
+  const isSmallScreen = window.innerWidth <= 768;
 
   const customStyles = {
     content: {
       borderRadius: "25px",
+      width: isSmallScreen ? '80%' : '40%',
+      margin: 'auto',
       height: "90%",
       padding: "2rem",
     },
@@ -111,12 +115,30 @@ const AdminDashboard = () => {
     }
   }, [formData.dob]);
 
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
+
+    // Update the form data
+    setFormData({
+      ...formData,
       [name]: value,
-    }));
+    });
+
+    // Phone number validation
+    if (name === "phone") {
+      if (value.length !== 10) {
+        setErrors({
+          ...errors,
+          phone: "Phone number must be exactly 10 digits.",
+        });
+      } else {
+        setErrors({
+          ...errors,
+          phone: "",
+        });
+      }
+    }
   };
 
   const handleSubmit = (e) => {
@@ -291,6 +313,7 @@ const AdminDashboard = () => {
               isOpen={modalIsOpen}
               contentLabel="Example Modal"
               style={customStyles}
+              
             >
               <div className="">
                 <div
@@ -480,6 +503,9 @@ const AdminDashboard = () => {
                       className="block w-full mt-1 p-2 border"
                       required
                     />
+                    {errors.phone && (
+                      <p className="text-red-500">{errors.phone}</p>
+                    )}
                   </div>
                   <div>
                     <label>Actual Gross Salary</label>
@@ -527,30 +553,27 @@ const AdminDashboard = () => {
             <tbody>
               {filteredUsers.map((user) => (
                 <tr key={user._id} className="border-t text-center">
-                  
                   <td className="py-2 px-4 border">
-                    <Link to='/admin/dashboard/individual-user-detail'>
-                    {user.name}
+                    <Link to="/admin/dashboard/individual-user-detail">
+                      {user.name}
                     </Link>
-                    </td>
+                  </td>
                   <td className="py-2 px-4 border">
-                  <Link to='/admin/dashboard/individual-user-detail'>
-                    {user.username}
+                    <Link to="/admin/dashboard/individual-user-detail">
+                      {user.username}
                     </Link>
-
-                    </td>
+                  </td>
                   <td className="py-2 px-4 border">
-                  <Link to='/admin/dashboard/individual-user-detail'>
-                    
-                    {user.email}
+                    <Link to="/admin/dashboard/individual-user-detail">
+                      {user.email}
                     </Link>
-                    </td>
+                  </td>
                   <td className="py-2 px-4 border">
-                    <Link to='/admin/dashboard/individual-user-detail'>
-                    {user.phone}
+                    <Link to="/admin/dashboard/individual-user-detail">
+                      {user.phone}
                     </Link>
-                    </td>
-                  <td className="py-2 px-4 items-center justify-center flex">
+                  </td>
+                  <td className="py-2 items-center justify-center flex w-80 md:w-auto">
                     <button
                       onClick={() => handleEdit(user)}
                       className="bg-yellow-500 text-white p-2 rounded mr-2"
@@ -562,6 +585,12 @@ const AdminDashboard = () => {
                       className="bg-red-500 text-white p-2 rounded"
                     >
                       Delete
+                    </button>
+                    <button
+                      onClick={() => {console.log('change pswd')}}
+                      className="bg-red-500 text-white p-2 ml-2 rounded"
+                    >
+                      Update Password
                     </button>
                   </td>
                 </tr>
