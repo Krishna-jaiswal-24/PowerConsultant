@@ -3,15 +3,19 @@ import AdminNavbar from '../../components/AdminNavbar';
 import axios from "axios";
 import { CiCalendarDate } from "react-icons/ci";
 import { IoClose } from "react-icons/io5";
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 
 function Allattendance() {
   const [attendance, setAttendance] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
-  const [isCalendarOpen, setIsCalendarOpen] = useState(false);
+  const [selectedMonth, setSelectedMonth] = useState("");
+  const [selectedYear, setSelectedYear] = useState("");
+
+  const months = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ];
+
+  const years = Array.from(new Array(30), (val, index) => index + 2020); // Adjust the range as needed
 
   const fetchAttendance = async () => {
     try {
@@ -35,20 +39,16 @@ function Allattendance() {
 
   const clearSearch = () => {
     setSearchTerm("");
-    setStartDate(null);
-    setEndDate(null);
-    setIsCalendarOpen(false);
+    setSelectedMonth("")
+    setSelectedYear("")
   };
 
-  const handleCalendarClick = () => {
-    setIsCalendarOpen(!isCalendarOpen);
+  const handleMonthChange = (e) => {
+    setSelectedMonth(e.target.value);
   };
 
-  const handleDateChange = (dates) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-
+  const handleYearChange = (e) => {
+    setSelectedYear(e.target.value);
   };
 
   const filteredAttendance = attendance.filter(user => {
@@ -64,17 +64,18 @@ function Allattendance() {
       (user.dutyHourse && user.dutyHourse.toString().includes(searchTerm)) ||
       (user.otHours && user.otHours.toString().includes(searchTerm));
 
-    const matchesDateRange =
-      (!startDate || new Date(user.date) >= startDate) &&
-      (!endDate || new Date(user.date) <= endDate);
+    const matchesDateFilter = user.date && (
+      (selectedMonth === "" || new Date(user.date).getMonth() === months.indexOf(selectedMonth)) &&
+      (selectedYear === "" || new Date(user.date).getFullYear().toString() === selectedYear)
+    );
 
-    return matchesSearchTerm && matchesDateRange;
+    return matchesSearchTerm && matchesDateFilter;
   });
 
   return (
     <div>
       <AdminNavbar />
-      <div className='p-6 md:p-14 overflow-scroll  min-h-[30rem]'>
+      <div className='p-6 md:p-14 overflow-scroll min-h-[30rem]'>
         <div className='py-4 flex md:flex-row w-full md:justify-between flex-col-reverse '>
           <div className='flex'>
             <div className='flex w-full'>
@@ -85,47 +86,45 @@ function Allattendance() {
                 onChange={handleSearch}
                 className="p-2 border border-black rounded mb-4 w-full"
               />
-              
             </div>
-            <div className='ml-4 relative'>
-              <CiCalendarDate className='text-4xl mt-1 cursor-pointer hover:scale-125 transition duration-300' onClick={handleCalendarClick} />
-              {isCalendarOpen && (
-                <div className='absolute top-12 right-1  z-10  border p-2'>
-                  <DatePicker
-                    selected={startDate}
-                    onChange={handleDateChange}
-                    startDate={startDate}
-                    endDate={endDate}
-                    selectsRange
-                    inline
-                  />
-                </div>
-              )}
-              
-            </div>
+            
             <div className='items-center'>
-                <IoClose className='text-4xl mt-1 hover:scale-125 transition duration-300 cursor-pointer'
-                onClick={clearSearch}/>
-              </div>
+              <IoClose className='text-4xl mt-1 hover:scale-125 transition duration-300 cursor-pointer'
+                onClick={clearSearch} />
+            </div>
           </div>
           <div className='my-4 text-2xl'>
             All Attendance:
           </div>
         </div>
+        <div className='flex mb-4'>
+          <select value={selectedMonth} onChange={handleMonthChange} className='p-2 border border-black rounded mr-4'>
+            <option value="">Select Month</option>
+            {months.map((month, index) => (
+              <option key={index} value={month}>{month}</option>
+            ))}
+          </select>
+          <select value={selectedYear} onChange={handleYearChange} className='p-2 border border-black rounded'>
+            <option value="">Select Year</option>
+            {years.map((year, index) => (
+              <option key={index} value={year}>{year}</option>
+            ))}
+          </select>
+        </div>
         <div>
           <table className="min-w-full bg-white border">
             <thead>
               <tr>
-                <th className="py-2 border">Name</th>
-                <th className="py-2 border">Date</th>
-                <th className="py-2 border">Duty Type</th>
-                <th className="py-2 border">Site Location</th>
-                <th className="py-2 border">Designation</th>
-                <th className="py-2 border">Work Category</th>
-                <th className="py-2 border">Actual Gross Salary</th>
-                <th className="py-2 border">Gender</th>
-                <th className="py-2 border">Duty Hour</th>
-                <th className="py-2 border">Overtime Hour</th>
+                <th className="py-2 border bg-gray-200">Name</th>
+                <th className="py-2 border bg-gray-200">Date</th>
+                <th className="py-2 border bg-gray-200">Duty Type</th>
+                <th className="py-2 border bg-gray-200">Site Location</th>
+                <th className="py-2 border bg-gray-200">Designation</th>
+                <th className="py-2 border bg-gray-200">Work Category</th>
+                <th className="py-2 border bg-gray-200">Actual Gross Salary</th>
+                <th className="py-2 border bg-gray-200">Gender</th>
+                <th className="py-2 border bg-gray-200">Duty Hour</th>
+                <th className="py-2 border bg-gray-200">Overtime Hour</th>
               </tr>
             </thead>
             <tbody>
@@ -159,7 +158,7 @@ function Allattendance() {
                     {user.dutyHours}
                   </td>
                   <td className="py-2 px-4 border">
-                    {user.otHours }
+                    {user.otHours}
                   </td>
                 </tr>
               ))}

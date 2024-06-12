@@ -546,11 +546,11 @@ const AdminDashboard = () => {
           <table className="min-w-full bg-white border">
             <thead>
               <tr>
-                <th className="py-2 border">Name</th>
-                <th className="py-2 border">Username</th>
-                <th className="py-2 border">Email</th>
-                <th className="py-2 border">Phone</th>
-                <th className="py-2 border">Actions</th>
+                <th className="py-2 border border-slate-950 bg-gray-100">Name</th>
+                <th className="py-2 border border-slate-950 bg-gray-100">Username</th>
+                <th className="py-2 border border-slate-950 bg-gray-100">Email</th>
+                <th className="py-2 border border-slate-950 bg-gray-100">Phone</th>
+                <th className="py-2 border border-slate-950 bg-gray-100">Actions</th>
               </tr>
             </thead>
             <tbody>

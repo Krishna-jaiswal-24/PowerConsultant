@@ -40,7 +40,7 @@ function ViewAllUser() {
   return (
     <div>
       <AdminNavbar />
-      <div className="p-12">
+      <div className="p-12 mt-10 overflow-scroll md:overflow-hidden">
         <div className="flex items-center">
           <input 
             type="text" 
@@ -59,10 +59,10 @@ function ViewAllUser() {
         <table className="min-w-full bg-white border">
           <thead>
             <tr>
-              <th className="py-2 border">Name</th>
-              <th className="py-2 border">Username</th>
-              <th className="py-2 border">Email</th>
-              <th className="py-2 border">Phone</th>
+              <th className="py-2 border border-slate-950 bg-gray-200">Name</th>
+              <th className="py-2 border border-slate-950 bg-gray-200">Username</th>
+              <th className="py-2 border border-slate-950 bg-gray-200">Email</th>
+              <th className="py-2 border border-slate-950 bg-gray-200">Phone</th>
             </tr>
           </thead>
           <tbody>
