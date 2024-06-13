@@ -40,7 +40,7 @@ function ViewAllUser() {
   return (
     <div>
       <AdminNavbar />
-      <div className="p-12 mt-10 overflow-scroll md:overflow-hidden">
+      <div className="p-8 mt-10 overflow-scroll md:overflow-hidden">
         <div className="flex items-center">
           <input 
             type="text" 

@@ -116,18 +116,46 @@ const AdminDashboard = () => {
   }, [formData.dob]);
 
 
+  // const handleChange = (e) => {
+  //   const { name, value } = e.target;
+
+  //   // Update the form data
+  //   setFormData({
+  //     ...formData,
+  //     [name]: value,
+  //   });
+
+  //   // Phone number validation
+  //   if (name === "phone") {
+  //     if (value.length !== 10) {
+  //       setErrors({
+  //         ...errors,
+  //         phone: "Phone number must be exactly 10 digits.",
+  //       });
+  //     } else {
+  //       setErrors({
+  //         ...errors,
+  //         phone: "",
+  //       });
+  //     }
+  //   }
+  // };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-
-    // Update the form data
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-
-    // Phone number validation
+  
+    // Allow only numeric characters in the phone number field
     if (name === "phone") {
-      if (value.length !== 10) {
+      const numericValue = value.replace(/\D/g, ""); // Remove all non-numeric characters
+  
+      // Update the form data with the numeric value
+      setFormData({
+        ...formData,
+        [name]: numericValue,
+      });
+  
+      // Phone number validation
+      if (numericValue.length !== 10) {
         setErrors({
           ...errors,
           phone: "Phone number must be exactly 10 digits.",
@@ -138,6 +166,12 @@ const AdminDashboard = () => {
           phone: "",
         });
       }
+    } else {
+      // Update the form data for other fields
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
     }
   };
 
@@ -280,9 +314,11 @@ const AdminDashboard = () => {
       <div className="p-8">
         <div className="ViewUser overflow-scroll md:overflow-hidden">
           <div className="AllUserHeading tpHead flex flex-col md:justify-between mx-2 md:mx-8 md:my-4 mb-4 md:flex-row">
-            <h2 className="text-2xl flex justify-center pb-4 md:mt-1">
+          
+            <h2 className="text-2xl flex justify-center pb-4 md:mt-4">
               All Users
             </h2>
+
             <div className="flex flex-row">
             <div className="flex mt-2 md:mt-1">
               <input
