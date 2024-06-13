@@ -21,6 +21,9 @@ const attendanceDetailsSchema = new mongoose.Schema({
 	siteLocation: {
 		type: String,
 	},
+	client:{
+		type:String,
+	},
 	dutyHours: {
 		type: Number,
 	},

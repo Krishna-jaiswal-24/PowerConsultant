@@ -4,7 +4,7 @@ import {getAllUsers} from "../controllers/userController.js";
 import {deleteUser} from "../controllers/userControllers/deleteUser.js";
 import {editUser} from "../controllers/userControllers/editUser.js";
 import {search} from "../controllers/search.js";
-import {addClient} from "../controllers/adminControllers/addClient.js";
+import {addClient, getClientAndSite} from "../controllers/adminControllers/addClient.js";
 import {allUsersAttendance} from "../controllers/userControllers/getAttendanceDetails.js";
 
 
@@ -19,5 +19,7 @@ router.put('/editUser/:id', editUser);
 router.post('/search', search);
 router.get('/getIndustriesAndCategories', getIndustriesAndCategories);
 router.post('/addClient', addClient);
+router.get('/client',getClientAndSite);
 router.get('/attendance',allUsersAttendance);
 export default router;
+

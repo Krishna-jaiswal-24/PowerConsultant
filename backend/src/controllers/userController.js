@@ -134,11 +134,8 @@ const getAllUsers = async (req, res) => {
 };
 
 const addDetails = async (req, res) => {
-  const { userId, date, dutyType, dutyHours, otHours, siteLocation, remark } =
+  const { userId, date, dutyType, dutyHours, otHours, siteLocation, remark , client} =
     req.body;
-
-  // Log the incoming request body for debugging
-  console.log("Request Body:", req.body);
 
   // Check if required fields are provided
   if (!userId || !date || !dutyType) {
@@ -157,6 +154,7 @@ const addDetails = async (req, res) => {
       otHours,
       siteLocation,
       remark,
+      client
     });
     await newDetails.save();
     res.status(201).json({

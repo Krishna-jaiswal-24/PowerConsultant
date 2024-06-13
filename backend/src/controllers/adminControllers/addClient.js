@@ -38,4 +38,20 @@ const addClient = async (req, res) => {
 	}
 }
 
-export {addClient};
+const getClientAndSite=async(req,res)=>{
+	try{
+		const clientDetails=await Client.find();
+		res.status(200).json({
+			success:true,
+			data:clientDetails
+		});
+	}catch(error){
+		res.status(500).json({
+			success:false,
+			message:"Server error"
+		});
+	}
+}
+
+
+export {addClient, getClientAndSite};
