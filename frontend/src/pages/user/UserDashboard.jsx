@@ -143,9 +143,9 @@ const UserDashboard = () => {
 							<th className="py-2 px-4 border">Duty Type</th>
 							<th className="py-2 px-4 border">Duty Hours</th>
 							<th className="py-2 px-4 border">OT Hours</th>
+							<th className="py-2 px-4 border">Client</th>
 							<th className="py-2 px-4 border">Site Location</th>
 							<th className="py-2 px-4 border">Remarks</th>
-							<th className="py-2 px-4 border">Actions</th>
 						</tr>
 						</thead>
 						<tbody>
@@ -155,6 +155,7 @@ const UserDashboard = () => {
 								<td className="py-2 px-4 border">{detail.dutyType}</td>
 								<td className="py-2 px-4 border">{detail.dutyHours}</td>
 								<td className="py-2 px-4 border">{detail.otHours}</td>
+								<td className="py-2 px-4 border">{detail.client}</td>
 								<td className="py-2 px-4 border">{detail.siteLocation}</td>
 								<td className="py-2 px-4 border">{detail.remark}</td>
 								<td className="py-2 px-4 border">
