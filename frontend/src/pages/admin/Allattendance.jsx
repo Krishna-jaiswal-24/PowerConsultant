@@ -75,42 +75,43 @@ function Allattendance() {
   return (
     <div>
       <AdminNavbar />
-      <div className='p-6 md:p-14 overflow-scroll min-h-[30rem]'>
-        <div className='py-4 flex md:flex-row w-full md:justify-between flex-col-reverse '>
+      <div className='p-6 md:p-8 overflow-scroll min-h-[30rem] md:overflow-hidden'>
+        <div className='py-4 flex md:flex-row-reverse w-full md:justify-between flex-col-reverse '>
           <div className='flex'>
-            <div className='flex w-full'>
-              <input
-                type="text"
-                placeholder="Search users..."
-                value={searchTerm}
-                onChange={handleSearch}
-                className="p-2 border border-black rounded mb-4 w-full"
-              />
-            </div>
-            
-            <div className='items-center'>
-              <IoClose className='text-4xl mt-1 hover:scale-125 transition duration-300 cursor-pointer'
-                onClick={clearSearch} />
-            </div>
-          </div>
-          <div className='my-4 text-2xl'>
-            All Attendance:
-          </div>
-        </div>
-        <div className='flex mb-4'>
-          <select value={selectedMonth} onChange={handleMonthChange} className='p-2 border border-black rounded mr-4'>
+          <div className='flex h-10 md:h-11 mt-1'>
+          <select value={selectedMonth} onChange={handleMonthChange} className='p-1 border border-black rounded mr-2'>
             <option value="">Select Month</option>
             {months.map((month, index) => (
               <option key={index} value={month}>{month}</option>
             ))}
           </select>
-          <select value={selectedYear} onChange={handleYearChange} className='p-2 border border-black rounded'>
+          <select value={selectedYear} onChange={handleYearChange} className='p-1 mr-2 border border-black rounded'>
             <option value="">Select Year</option>
             {years.map((year, index) => (
               <option key={index} value={year}>{year}</option>
             ))}
           </select>
         </div>
+            <div className='flex w-full'>
+            <input
+                type="text"
+                placeholder="Search users..."
+                value={searchTerm}
+                onChange={handleSearch}
+                className="p-2 border h-10 mt-1 md:h-11 border-black rounded mb-4 w-full md:w-96 md:mt-[0.3rem]"
+              />
+            </div>
+            
+            <div className='items-center'>
+              <IoClose className='text-4xl mt-2 hover:scale-125 transition duration-300 cursor-pointer'
+                onClick={clearSearch} />
+            </div>
+          </div>
+          <div className='my-4 text-2xl md:ml-8'>
+            All Attendance:
+          </div>
+        </div>
+    
         <div>
           <table className="min-w-full bg-white border">
             <thead>
