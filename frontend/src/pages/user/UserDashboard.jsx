@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import AdminNavbar from "../../components/AdminNavbar";
 import { CgUserAdd } from "react-icons/cg";
 import ResetPasswordModal from "../../components/ForgotPasswordModal.jsx";
+import UserNavbar from "../../components/UserNavbar.jsx";
 
 const UserDashboard = () => {
 	const location = useLocation();
@@ -38,6 +39,7 @@ const UserDashboard = () => {
 			const response = await axios.get(
 				`http://localhost:8000/api/user/attendance/${user._id}`
 			);
+			console.log('userid of specific user is: ', user._id)
 			setAttendanceDetails(response.data.data);
 			console.log("Attendance details:", response.data.data);
 		} catch (error) {
@@ -61,6 +63,7 @@ const UserDashboard = () => {
 				// Add new detail
 				await axios.post(`http://localhost:8000/api/user/attendance`, formData);
 			}
+			
 			closeModal();
 			fetchAttendanceDetails(); // Refresh the attendance details after adding/editing
 		} catch (error) {
@@ -100,7 +103,8 @@ const UserDashboard = () => {
 
 	return (
 		<div>
-			<AdminNavbar UserName={user.name} />
+			{/* <AdminNavbar UserName={user.name} /> */}
+			<UserNavbar UserName={user.name}/>
 			<div className="p-12">
 				<div className="flex flex-col-reverse md:flex-row justify-between mb-4">
 					<h2 className="text-2xl flex justify-start mt-2">Attendance Details: </h2>

@@ -5,7 +5,7 @@ function App() {
 	return (
 		<>
 			<nav className="dark:bg-gray-900 px-8 py-4 shadow-md">
-			<span className="self-center text-2xl md:ml-28 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
+			<span className="self-center text-2xl md:ml-2 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
 
 			</nav>
 			<div className="flex flex-col items-center justify-center border-2 border-gray-300 bg-white w-3/4 md:w-1/3 mx-auto mt-16 p-8 rounded-lg shadow-2xl">

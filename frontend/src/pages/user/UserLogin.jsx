@@ -21,13 +21,13 @@ const UserLogin = () => {
 			console.log(error);
 		}
 		console.log('Username:', username);
-		console.log('Password:', password);
+		console.log('Password:', password); 
 	};
 
 	return (
 		<>
 			<nav className="dark:bg-gray-900 px-8 py-4 shadow-md">
-			<span className="self-center text-2xl md:ml-28 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
+			<span className="self-center text-2xl md:ml-2 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
 
 			</nav>
 			{/* <nav className="bg-blue-600 px-8 py-3">

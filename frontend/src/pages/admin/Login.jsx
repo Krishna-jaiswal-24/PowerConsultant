@@ -25,7 +25,7 @@ const Login = () => {
 		<>
 			<nav className="dark:bg-gray-900 px-8 py-4  shadow-md">
 				{/* <h1 className="text-white text-3xl font-bold">Power Consultant</h1> */}
-				<span className="self-center text-2xl md:ml-28 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
+				<span className="self-center text-2xl md:ml-2 font-semibold whitespace-nowrap dark:text-white">Power Consultant</span>
 
 			</nav>
 			<div className="flex justify-center items-center h-screen bg-gray-100">

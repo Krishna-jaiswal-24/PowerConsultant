@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 
 
-function UserNavbar() {
+function UserNavbar({UserName}) {
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -41,7 +41,7 @@ function UserNavbar() {
           
           <li className='flex sm:items-center'>
             <img src="https://www.pikpng.com/pngl/m/16-169348_user-icon-user-white-icon-transparent-clipart.png" className="h-8  mx-3 rounded-md" alt="User Icon" />
-            <a className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">User Name</a>
+            <a className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">{UserName}</a>
           </li>
         </ul>
       </div>

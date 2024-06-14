@@ -9,6 +9,8 @@ function Allattendance() {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedMonth, setSelectedMonth] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
+  const [selectedClient, setSelectedClient] = useState("")
+  const [selectedSiteLocation, setSelectedSiteLocation] = useState("");
 
   const months = [
     "January", "February", "March", "April", "May", "June",
@@ -41,6 +43,8 @@ function Allattendance() {
     setSearchTerm("");
     setSelectedMonth("")
     setSelectedYear("")
+    setSelectedClient("")
+    setSelectedSiteLocation("")
   };
 
   const handleMonthChange = (e) => {
@@ -54,6 +58,7 @@ function Allattendance() {
   const filteredAttendance = attendance.filter(user => {
     const matchesSearchTerm =
       (user.name && user.name.toLowerCase().includes(searchTerm.toLowerCase())) ||
+      (user.client && user.client.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (user.date && user.date.includes(searchTerm)) ||
       (user.dutyType && user.dutyType.toLowerCase().includes(searchTerm.toLowerCase())) ||
       (user.siteLocation && user.siteLocation.toLowerCase().includes(searchTerm.toLowerCase())) ||
@@ -69,8 +74,21 @@ function Allattendance() {
       (selectedYear === "" || new Date(user.date).getFullYear().toString() === selectedYear)
     );
 
-    return matchesSearchTerm && matchesDateFilter;
+    const matchesClientFilter = selectedClient === "" || (user.client && user.client === selectedClient);
+    const matchesSiteLocationFilter = selectedSiteLocation === "" || (user.siteLocation && user.siteLocation === selectedSiteLocation);
+
+    return matchesSearchTerm && matchesDateFilter && matchesClientFilter && matchesSiteLocationFilter;
   });
+  
+  const handleClientName = (e) => {
+    setSelectedClient(e.target.value)
+    
+    
+  }
+  const handleSiteLocation = (e) => {
+    setSelectedSiteLocation(e.target.value)
+  
+  }
 
   return (
     <div>
@@ -89,6 +107,18 @@ function Allattendance() {
             <option value="">Select Year</option>
             {years.map((year, index) => (
               <option key={index} value={year}>{year}</option>
+            ))}
+          </select>
+          <select value={selectedYear} onChange={handleClientName} className='p-1 mr-2 border border-black rounded'>
+            <option value="">Client</option>
+            {attendance.map((user) => (
+              <option key={user._id} value={user.client}>{user.client}</option>
+            ))}
+          </select>
+          <select value={selectedYear} onChange={handleSiteLocation} className='p-1 mr-2 border border-black rounded'>
+            <option value="">Site location</option>
+            {attendance.map((user) => (
+              <option key={user._id} value={user.siteLocation}>{user.siteLocation}</option>
             ))}
           </select>
         </div>
@@ -118,6 +148,8 @@ function Allattendance() {
               <tr>
                 <th className="py-2 border bg-gray-200">Name</th>
                 <th className="py-2 border bg-gray-200">Date</th>
+                <th className="py-2 border bg-gray-200">Client</th>
+
                 <th className="py-2 border bg-gray-200">Duty Type</th>
                 <th className="py-2 border bg-gray-200">Site Location</th>
                 <th className="py-2 border bg-gray-200">Designation</th>
@@ -136,6 +168,9 @@ function Allattendance() {
                   </td>
                   <td className="py-2 px-4 border">
                     {user.date}
+                  </td>
+                  <td className="py-2 px-4 border">
+                    {user.client}
                   </td>
                   <td className="py-2 px-4 border">
                     {user.dutyType}
