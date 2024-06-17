@@ -12,6 +12,7 @@ import UserAddAttendance from "./pages/user/UserAddAttendance.jsx";
 import ViewAllUser from "./pages/admin/ViewAllUser.jsx";
 import DetailedUserView from "./pages/admin/DetailedUserView.jsx";
 import Allattendance from "./pages/admin/Allattendance.jsx";
+import AuthProvider from "./contexts/UserAuthContext.jsx";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/user/dashboard",
-    element: <UserDashboard />,
+    element:
+        <AuthProvider><UserDashboard /></AuthProvider>,
   },
   {
     path: "/admin/dashboard",
@@ -57,6 +59,6 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+      <RouterProvider router={router} />
   </React.StrictMode>
 );
