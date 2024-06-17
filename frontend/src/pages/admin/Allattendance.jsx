@@ -169,13 +169,13 @@ function Allattendance() {
             </div>
             <div className='mt-3 md:mt-1 '>
           <select value={selectedYear} onChange={handleClientName} className='p-1 h-11 mr-2 border border-black rounded'>
-            <option value="">Client</option>
+            <option value="">{(selectedClient === "") ? ("Client") : (selectedClient)}</option>
             {attendance.map((user) => (
               <option key={user._id} value={user.client}>{user.client}</option>
             ))}
           </select>
           <select value={selectedYear} onChange={handleSiteLocation} className='p-1 mr-2 h-11 border border-black rounded'>
-            <option value="">Site location</option>
+            <option value="">{(selectedSiteLocation === "") ? ("Site Location") : (selectedSiteLocation)}</option>
             {attendance.map((user) => (
               <option key={user._id} value={user.siteLocation}>{user.siteLocation}</option>
             ))}
