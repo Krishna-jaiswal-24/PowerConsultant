@@ -370,10 +370,10 @@ const AdminDashboard = () => {
                   )}
                 </div>
                 <div
-                    className="flex border border-black m-2 p-2 h-10 rounded items-center cursor-pointer transform transition-transform hover:scale-105 md:w-30 md:h-11"
+                    className="flex border m-2 p-2 h-10 text-lg rounded items-center cursor-pointer transform transition-transform hover:scale-105 md:w-30 md:h-11  bg-green-600 text-white  hover:bg-green-200 hover:text-green-600"
                     onClick={() => setModalIsOpen(true)}
                 >
-                  <CgUserAdd className="text-xl mr-2 " />
+                  <CgUserAdd className="text-xl mr-2 "/>
                   <h2 className="text-xs">Add User</h2>
                 </div>
               </div>
