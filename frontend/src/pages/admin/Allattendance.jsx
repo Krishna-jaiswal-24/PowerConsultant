@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminNavbar from "../../components/AdminNavbar";
 import axios from "axios";
-import { CiCalendarDate } from "react-icons/ci";
-import { IoClose } from "react-icons/io5";
+import { CSVLink } from "react-csv";
 
 function Allattendance() {
   const [attendance, setAttendance] = useState([]);
@@ -12,6 +11,21 @@ function Allattendance() {
 
   const [selectedClient, setSelectedClient] = useState("");
   const [selectedSiteLocation, setSelectedSiteLocation] = useState("");
+  const [selectedColumns, setSelectedColumns] = useState([
+    "name",
+    "date",
+    "client",
+    "dutyType",
+    "siteLocation",
+    "designation",
+    "workCategory",
+    "actualGrossSalary",
+    "sex",
+    "dutyHours",
+    "otHours",
+  ]);
+
+  const [isColumnMenuOpen, setIsColumnMenuOpen] = useState(false);
 
   const months = [
     "January",
@@ -26,6 +40,20 @@ function Allattendance() {
     "October",
     "November",
     "December",
+  ];
+
+  const columns = [
+    { label: "Name", value: "name" },
+    { label: "Date", value: "date" },
+    { label: "Client", value: "client" },
+    { label: "Duty Type", value: "dutyType" },
+    { label: "Site Location", value: "siteLocation" },
+    { label: "Designation", value: "designation" },
+    { label: "Work Category", value: "workCategory" },
+    { label: "Actual Gross Salary", value: "actualGrossSalary" },
+    { label: "Gender", value: "sex" },
+    { label: "Duty Hour", value: "dutyHours" },
+    { label: "Overtime Hour", value: "otHours" },
   ];
 
   const fetchAttendance = async () => {
@@ -62,6 +90,19 @@ function Allattendance() {
 
   const handleYearChange = (e) => {
     setSelectedYear(e.target.value);
+  };
+
+  const handleColumnChange = (e) => {
+    const value = e.target.value;
+    setSelectedColumns((prev) =>
+      prev.includes(value)
+        ? prev.filter((col) => col !== value)
+        : [...prev, value]
+    );
+  };
+
+  const toggleColumnMenu = () => {
+    setIsColumnMenuOpen((prev) => !prev);
   };
 
   const filteredAttendance = attendance.filter((user) => {
@@ -119,6 +160,13 @@ function Allattendance() {
   };
 
   const uniqueYears = extractUniqueYears(attendance);
+
+  const exportData = filteredAttendance.map((user) =>
+    selectedColumns.reduce((obj, col) => {
+      obj[col] = user[col];
+      return obj;
+    }, {})
+  );
 
   return (
     <div>
@@ -182,9 +230,62 @@ function Allattendance() {
                   </option>
                 ))}
               </select>
+
+              <div className="relative inline-block text-left m-1">
+                <div>
+                  <button
+                    type="button"
+                    className="inline-flex justify-start w-40 md:w-36 rounded-md border border-black shadow-sm px-4 py-2 bg-white text-sm  text-gray-700 hover:bg-gray-50 focus:outline-none"
+                    id="menu-button"
+                    aria-expanded={isColumnMenuOpen}
+                    aria-haspopup="true"
+                    onClick={toggleColumnMenu}
+                  >
+                    Select Columns
+                  </button>
+                </div>
+
+                {isColumnMenuOpen && (
+                  <div
+                    className="origin-top-left absolute left-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="menu-button"
+                  >
+                    <div className="py-1" role="none">
+                      {columns.map((column) => (
+                        <div
+                          key={column.value}
+                          className="flex items-center px-4 py-2"
+                        >
+                          <input
+                            type="checkbox"
+                            value={column.value}
+                            checked={selectedColumns.includes(column.value)}
+                            onChange={handleColumnChange}
+                            className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                          />
+                          <label className="ml-3 text-sm font-medium text-gray-700">
+                            {column.label}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className="mt-1 md:mx-1 ml-2">
+            <CSVLink
+              data={exportData}
+              filename={"attendance.csv"}
+              className="inline-flex items-center justify-start w-36 md:w-36 rounded-md border border-black shadow-sm px-3 py-2 h-9 bg-white text-s  text-gray-700 hover:bg-gray-50 focus:outline-none"
+            >
+              Export
+            </CSVLink>
+          </div>
             </div>
 
-            <div className="flex ml-1 mt-11  md:my-0">
+            <div className="flex ml-1 mt-[5.5rem]  md:my-0">
               <div className="">
                 <input
                   type="text"
@@ -196,7 +297,7 @@ function Allattendance() {
               </div>
 
               <div
-                className="flex cursor-pointer justify-start pl-2 w-36 h-9 items-center border m-1 ml-3 rounded-md md:mt-2 border-black"
+                className="flex cursor-pointer justify-start pl-2 w-36 h-9 items-center border m-1 ml-3 md:ml-2 rounded-md md:mt-2 border-black"
                 onClick={clearSearch}
               >
                 <div className="items-center">Clear Filters</div>
@@ -208,39 +309,91 @@ function Allattendance() {
         </div>
 
         <div>
+         
           <table className="min-w-full bg-white border">
             <thead>
               <tr>
-                <th className="py-2 border bg-gray-200">Name</th>
-                <th className="py-2 border bg-gray-200">Date</th>
-                <th className="py-2 border bg-gray-200">Client</th>
-
-                <th className="py-2 border bg-gray-200">Duty Type</th>
-                <th className="py-2 border bg-gray-200">Site Location</th>
-                <th className="py-2 border bg-gray-200">Designation</th>
-                <th className="py-2 border bg-gray-200">Work Category</th>
-                <th className="py-2 border bg-gray-200">Actual Gross Salary</th>
-                <th className="py-2 border bg-gray-200">Gender</th>
-                <th className="py-2 border bg-gray-200">Duty Hour</th>
-                <th className="py-2 border bg-gray-200">Overtime Hour</th>
+                {selectedColumns.includes("name") && (
+                  <th className="py-2 border bg-gray-200">Name</th>
+                )}
+                {selectedColumns.includes("date") && (
+                  <th className="py-2 border bg-gray-200">Date</th>
+                )}
+                {selectedColumns.includes("client") && (
+                  <th className="py-2 border bg-gray-200">Client</th>
+                )}
+                {selectedColumns.includes("dutyType") && (
+                  <th className="py-2 border bg-gray-200">Duty Type</th>
+                )}
+                {selectedColumns.includes("siteLocation") && (
+                  <th className="py-2 border bg-gray-200">Site Location</th>
+                )}
+                {selectedColumns.includes("designation") && (
+                  <th className="py-2 border bg-gray-200">Designation</th>
+                )}
+                {selectedColumns.includes("workCategory") && (
+                  <th className="py-2 border bg-gray-200">Work Category</th>
+                )}
+                {selectedColumns.includes("actualGrossSalary") && (
+                  <th className="py-2 border bg-gray-200">Actual Gross Salary</th>
+                )}
+                {selectedColumns.includes("sex") && (
+                  <th className="py-2 border bg-gray-200">Gender</th>
+                )}
+                {selectedColumns.includes("dutyHours") && (
+                  <th className="py-2 border bg-gray-200">Duty Hour</th>
+                )}
+                {selectedColumns.includes("otHours") && (
+                  <th className="py-2 border bg-gray-200">Overtime Hour</th>
+                )}
               </tr>
             </thead>
             <tbody>
-              {filteredAttendance.map((user) => (
-                <tr key={user._id} className="border-t text-center">
-                  <td className="py-2 px-4 border">{user.name}</td>
-                  <td className="py-2 px-4 border">{user.date}</td>
-                  <td className="py-2 px-4 border">{user.client}</td>
-                  <td className="py-2 px-4 border">{user.dutyType}</td>
-                  <td className="py-2 px-4 border">{user.siteLocation}</td>
-                  <td className="py-2 px-4 border">{user.designation}</td>
-                  <td className="py-2 px-4 border">{user.workCategory}</td>
-                  <td className="py-2 px-4 border">{user.actualGrossSalary}</td>
-                  <td className="py-2 px-4 border">{user.sex}</td>
-                  <td className="py-2 px-4 border">{user.dutyHours}</td>
-                  <td className="py-2 px-4 border">{user.otHours}</td>
+              {filteredAttendance.length > 0 ? (
+                filteredAttendance.map((user) => (
+                  <tr key={user._id} className="border-t text-center">
+                    {selectedColumns.includes("name") && (
+                      <td className="py-2 px-4 border">{user.name}</td>
+                    )}
+                    {selectedColumns.includes("date") && (
+                      <td className="py-2 px-4 border">{user.date}</td>
+                    )}
+                    {selectedColumns.includes("client") && (
+                      <td className="py-2 px-4 border">{user.client}</td>
+                    )}
+                    {selectedColumns.includes("dutyType") && (
+                      <td className="py-2 px-4 border">{user.dutyType}</td>
+                    )}
+                    {selectedColumns.includes("siteLocation") && (
+                      <td className="py-2 px-4 border">{user.siteLocation}</td>
+                    )}
+                    {selectedColumns.includes("designation") && (
+                      <td className="py-2 px-4 border">{user.designation}</td>
+                    )}
+                    {selectedColumns.includes("workCategory") && (
+                      <td className="py-2 px-4 border">{user.workCategory}</td>
+                    )}
+                    {selectedColumns.includes("actualGrossSalary") && (
+                      <td className="py-2 px-4 border">{user.actualGrossSalary}</td>
+                    )}
+                    {selectedColumns.includes("sex") && (
+                      <td className="py-2 px-4 border">{user.sex}</td>
+                    )}
+                    {selectedColumns.includes("dutyHours") && (
+                      <td className="py-2 px-4 border">{user.dutyHours}</td>
+                    )}
+                    {selectedColumns.includes("otHours") && (
+                      <td className="py-2 px-4 border">{user.otHours}</td>
+                    )}
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="11" className="py-2 px-4 border text-center">
+                    No Results
+                  </td>
                 </tr>
-              ))}
+              )}
             </tbody>
           </table>
         </div>
