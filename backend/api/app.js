@@ -18,9 +18,7 @@ app.get('/', (req, res) => {
 });
 
 connectDb()
-  .then(() => app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-  }))
+  .then(() => console.log(`MongoDB connected successfully`))
   .catch((error) => {
     console.log("MONGO DB connection FAILED", error);
   });
