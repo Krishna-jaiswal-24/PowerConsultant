@@ -165,13 +165,13 @@ const UserDashboard = () => {
 								<td className="py-2 px-4 border">
 									<div className="flex justify-center space-x-2">
 										<button
-											className="bg-blue-500 text-white px-2 py-1 rounded"
+											className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-200 hover:text-blue-500 "
 											onClick={() => handleEditClick(detail)}
 										>
 											Edit
 										</button>
 										<button
-											className="bg-red-500 text-white px-2 py-1 rounded"
+											className="bg-red-500 text-white px-4 py-1 rounded hover:bg-red-200 hover:text-red-600"
 											onClick={() => handleDeleteClick(detail._id)}
 										>
 											Delete
