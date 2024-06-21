@@ -1,6 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
-import connectDb from "../src/db/index.js";
+import connectDb from "./src/db/index.js";
 import cors from 'cors';
 import morgan from 'morgan';
 
@@ -23,10 +23,9 @@ connectDb()
     console.log("MONGO DB connection FAILED", error);
   });
 
-import AdminRouter from "../src/routes/adminRoute.js";
-import UserRouter from "../src/routes/userRoute.js";
+import AdminRouter from "./src/routes/adminRoute.js";
+import UserRouter from "./src/routes/userRoute.js";
 
 app.use('/api/admin', AdminRouter);
 app.use('/api/user', UserRouter);
 
-export default app;
